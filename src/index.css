@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    --background: 40 33% 96%;
-    --foreground: 25 40% 10%;
+    --background: 195 40% 97%;
+    --foreground: 200 50% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 25 40% 10%;
+    --card-foreground: 200 50% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 25 40% 10%;
+    --popover-foreground: 200 50% 8%;
 
-    --primary: 33 32% 40%;
-    --primary-foreground: 40 33% 96%;
+    --primary: 195 70% 38%;
+    --primary-foreground: 195 40% 97%;
 
-    --secondary: 30 30% 90%;
-    --secondary-foreground: 25 40% 10%;
+    --secondary: 195 35% 92%;
+    --secondary-foreground: 200 50% 8%;
 
-    --muted: 30 20% 92%;
-    --muted-foreground: 25 20% 40%;
+    --muted: 195 25% 93%;
+    --muted-foreground: 200 25% 40%;
 
-    --accent: 24 50% 47%;
+    --accent: 185 60% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 33 20% 85%;
-    --input: 33 20% 85%;
-    --ring: 33 32% 40%;
+    --border: 195 25% 87%;
+    --input: 195 25% 87%;
+    --ring: 195 70% 38%;
 
     --radius: 1rem;
 
     /* Dezzove custom tokens */
-    --dz-brown: 25 40% 10%;
-    --dz-mocha: 33 32% 40%;
-    --dz-caramel: 24 50% 47%;
-    --dz-cream: 40 33% 96%;
-    --dz-cream-dark: 30 30% 90%;
-    --dz-rose: 0 40% 63%;
-    --dz-chocolate: 20 55% 13%;
-    --dz-gold: 36 45% 52%;
-    --dz-text-light: 25 20% 40%;
+    --dz-deep: 200 60% 15%;
+    --dz-ocean: 195 70% 38%;
+    --dz-teal: 185 60% 42%;
+    --dz-sky: 195 40% 97%;
+    --dz-sky-dark: 195 35% 92%;
+    --dz-coral: 5 65% 60%;
+    --dz-navy: 205 65% 12%;
+    --dz-aqua: 190 55% 50%;
+    --dz-text-light: 200 25% 40%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -97,14 +97,14 @@ a, button, [role="button"] {
    GRADIENT TEXT
    =========================== */
 .gradient-text {
-  background: linear-gradient(135deg, hsl(33,32%,40%) 0%, hsl(24,50%,47%) 50%, hsl(36,45%,52%) 100%);
+  background: linear-gradient(135deg, hsl(195,70%,38%) 0%, hsl(185,60%,42%) 50%, hsl(190,55%,50%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, hsl(20,55%,13%) 0%, hsl(33,32%,40%) 60%, hsl(24,50%,47%) 100%);
+  background: linear-gradient(135deg, hsl(205,65%,12%) 0%, hsl(195,70%,38%) 60%, hsl(185,60%,42%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -114,14 +114,14 @@ a, button, [role="button"] {
    GLASSMORPHISM
    =========================== */
 .glass {
-  background: hsla(40,33%,96%,0.75);
+  background: hsla(195,40%,97%,0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid hsla(0,0%,100%,0.5);
 }
 
 .glass-dark {
-  background: hsla(20,55%,13%,0.65);
+  background: hsla(205,65%,12%,0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid hsla(0,0%,100%,0.08);
@@ -138,23 +138,23 @@ a, button, [role="button"] {
    GRADIENTS
    =========================== */
 .bg-cream-gradient {
-  background: linear-gradient(135deg, hsl(40,33%,96%) 0%, hsl(30,30%,90%) 50%, hsl(40,33%,96%) 100%);
+  background: linear-gradient(135deg, hsl(195,40%,97%) 0%, hsl(195,35%,92%) 50%, hsl(195,40%,97%) 100%);
 }
 
 .bg-dessert-gradient {
-  background: linear-gradient(160deg, hsl(40,33%,96%) 0%, hsl(35,35%,93%) 35%, hsl(30,30%,90%) 65%, hsl(40,33%,96%) 100%);
+  background: linear-gradient(160deg, hsl(195,40%,97%) 0%, hsl(195,38%,94%) 35%, hsl(195,35%,92%) 65%, hsl(195,40%,97%) 100%);
 }
 
 .bg-mocha-gradient {
-  background: linear-gradient(135deg, hsl(20,55%,13%) 0%, hsl(25,45%,20%) 50%, hsl(33,32%,40%) 100%);
+  background: linear-gradient(135deg, hsl(205,65%,12%) 0%, hsl(200,55%,18%) 50%, hsl(195,70%,38%) 100%);
 }
 
 .bg-primary-gradient {
-  background: linear-gradient(135deg, hsl(33,32%,40%) 0%, hsl(30,38%,45%) 50%, hsl(24,50%,47%) 100%);
+  background: linear-gradient(135deg, hsl(195,70%,38%) 0%, hsl(190,60%,42%) 50%, hsl(185,60%,42%) 100%);
 }
 
 .bg-hero-gradient {
-  background: linear-gradient(160deg, hsl(40,33%,96%) 0%, hsl(35,35%,93%) 30%, hsl(30,30%,90%) 60%, hsl(40,33%,96%) 100%);
+  background: linear-gradient(160deg, hsl(195,40%,97%) 0%, hsl(195,38%,94%) 30%, hsl(195,35%,92%) 60%, hsl(195,40%,97%) 100%);
 }
 
 /* ===========================
@@ -171,8 +171,8 @@ a, button, [role="button"] {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px hsla(33,32%,40%,0.25); }
-  50% { box-shadow: 0 0 45px hsla(33,32%,40%,0.55); }
+  0%, 100% { box-shadow: 0 0 20px hsla(195,70%,38%,0.25); }
+  50% { box-shadow: 0 0 45px hsla(195,70%,38%,0.55); }
 }
 
 @keyframes spin-slow {
@@ -250,7 +250,7 @@ a, button, [role="button"] {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  background: linear-gradient(135deg, hsl(195,70%,38%), hsl(185,60%,42%));
   color: white;
   padding: 0.875rem 2rem;
   border-radius: 9999px;
@@ -268,14 +268,14 @@ a, button, [role="button"] {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, hsl(24,50%,47%), hsl(36,45%,52%));
+  background: linear-gradient(135deg, hsl(185,60%,42%), hsl(190,55%,50%));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 .btn-primary:hover::after { opacity: 1; }
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px hsla(33,32%,40%,0.45);
+  box-shadow: 0 12px 35px hsla(195,70%,38%,0.45);
 }
 .btn-primary > * { position: relative; z-index: 1; }
 .btn-primary span { position: relative; z-index: 1; }
@@ -285,8 +285,8 @@ a, button, [role="button"] {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 2px solid hsl(33,32%,40%);
-  color: hsl(33,32%,40%);
+  border: 2px solid hsl(195,70%,38%);
+  color: hsl(195,70%,38%);
   padding: 0.75rem 1.875rem;
   border-radius: 9999px;
   font-weight: 700;
@@ -298,10 +298,10 @@ a, button, [role="button"] {
   text-decoration: none;
 }
 .btn-outline:hover {
-  background: hsl(33,32%,40%);
+  background: hsl(195,70%,38%);
   color: white;
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px hsla(33,32%,40%,0.3);
+  box-shadow: 0 12px 35px hsla(195,70%,38%,0.3);
 }
 
 .btn-white {
@@ -310,7 +310,7 @@ a, button, [role="button"] {
   justify-content: center;
   gap: 0.5rem;
   background: white;
-  color: hsl(33,32%,40%);
+  color: hsl(195,70%,38%);
   padding: 0.875rem 2rem;
   border-radius: 9999px;
   font-weight: 700;
@@ -322,7 +322,7 @@ a, button, [role="button"] {
   text-decoration: none;
 }
 .btn-white:hover {
-  background: hsl(30,30%,90%);
+  background: hsl(195,35%,92%);
   transform: translateY(-3px);
   box-shadow: 0 12px 35px hsla(0,0%,0%,0.15);
 }
@@ -335,7 +335,7 @@ a, button, [role="button"] {
 }
 .card-hover:hover {
   transform: translateY(-10px);
-  box-shadow: 0 30px 60px hsla(33,32%,40%,0.18);
+  box-shadow: 0 30px 60px hsla(195,70%,38%,0.18);
 }
 
 /* ===========================
@@ -348,20 +348,20 @@ a, button, [role="button"] {
   font-size: 0.875rem;
   letter-spacing: 0.03em;
   transition: all 0.3s ease;
-  border: 2px solid hsla(33,32%,40%,0.2);
-  color: hsl(25,20%,40%);
+  border: 2px solid hsla(195,70%,38%,0.2);
+  color: hsl(200,25%,40%);
   background: white;
   white-space: nowrap;
 }
 .menu-filter-btn:hover {
-  border-color: hsl(33,32%,40%);
-  color: hsl(33,32%,40%);
+  border-color: hsl(195,70%,38%);
+  color: hsl(195,70%,38%);
 }
 .menu-filter-btn.active {
-  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  background: linear-gradient(135deg, hsl(195,70%,38%), hsl(185,60%,42%));
   color: white;
   border-color: transparent;
-  box-shadow: 0 6px 20px hsla(33,32%,40%,0.35);
+  box-shadow: 0 6px 20px hsla(195,70%,38%,0.35);
 }
 
 /* ===========================
@@ -375,7 +375,7 @@ a, button, [role="button"] {
 .insta-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, hsla(33,32%,40%,0.85), hsla(24,50%,47%,0.75));
+  background: linear-gradient(135deg, hsla(195,70%,38%,0.85), hsla(185,60%,42%,0.75));
   opacity: 0;
   transition: opacity 0.4s ease;
   display: flex;
@@ -396,13 +396,13 @@ a, button, [role="button"] {
   gap: 0.5rem;
   padding: 0.4rem 1.1rem;
   border-radius: 9999px;
-  background: hsla(33,32%,40%,0.1);
-  color: hsl(33,32%,40%);
+  background: hsla(195,70%,38%,0.1);
+  color: hsl(195,70%,38%);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border: 1px solid hsla(33,32%,40%,0.2);
+  border: 1px solid hsla(195,70%,38%,0.2);
 }
 
 /* ===========================
@@ -412,7 +412,7 @@ a, button, [role="button"] {
   width: 3.5rem;
   height: 3px;
   border-radius: 9999px;
-  background: linear-gradient(90deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  background: linear-gradient(90deg, hsl(195,70%,38%), hsl(185,60%,42%));
   display: block;
 }
 
@@ -420,8 +420,8 @@ a, button, [role="button"] {
    BADGE
    =========================== */
 .badge-new {
-  background: linear-gradient(135deg, hsl(30,30%,90%), hsl(40,33%,96%));
-  color: hsl(20,55%,13%);
+  background: linear-gradient(135deg, hsl(195,35%,92%), hsl(195,40%,97%));
+  color: hsl(205,65%,12%);
   font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -431,7 +431,7 @@ a, button, [role="button"] {
 }
 
 .badge-hot {
-  background: linear-gradient(135deg, hsl(24,50%,47%), hsl(36,45%,52%));
+  background: linear-gradient(135deg, hsl(185,60%,42%), hsl(190,55%,50%));
   color: white;
   font-size: 0.65rem;
   font-weight: 800;
@@ -442,7 +442,7 @@ a, button, [role="button"] {
 }
 
 .badge-bestseller {
-  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  background: linear-gradient(135deg, hsl(195,70%,38%), hsl(185,60%,42%));
   color: white;
   font-size: 0.65rem;
   font-weight: 800;
@@ -468,16 +468,16 @@ a, button, [role="button"] {
    NAVBAR
    =========================== */
 .navbar-scrolled {
-  box-shadow: 0 4px 30px hsla(33,32%,40%,0.12);
+  box-shadow: 0 4px 30px hsla(195,70%,38%,0.12);
 }
 
 /* ===========================
    SCROLLBAR
    =========================== */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: hsl(40,33%,96%); }
+::-webkit-scrollbar-track { background: hsl(195,40%,97%); }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, hsl(33,32%,40%), hsl(24,50%,47%));
+  background: linear-gradient(to bottom, hsl(195,70%,38%), hsl(185,60%,42%));
   border-radius: 3px;
 }
 
@@ -495,19 +495,19 @@ a, button, [role="button"] {
   width: 100%;
   padding: 0.875rem 1.25rem;
   border-radius: 0.875rem;
-  border: 1.5px solid hsla(33,32%,40%,0.2);
+  border: 1.5px solid hsla(195,70%,38%,0.2);
   background: white;
   font-size: 0.9375rem;
-  color: hsl(25,40%,10%);
+  color: hsl(200,50%,8%);
   transition: all 0.3s ease;
   outline: none;
 }
 .dz-input:focus {
-  border-color: hsl(33,32%,40%);
-  box-shadow: 0 0 0 3px hsla(33,32%,40%,0.12);
+  border-color: hsl(195,70%,38%);
+  box-shadow: 0 0 0 3px hsla(195,70%,38%,0.12);
 }
 .dz-input::placeholder {
-  color: hsl(25,20%,65%);
+  color: hsl(200,20%,65%);
 }
 
 /* Social card */
@@ -515,11 +515,11 @@ a, button, [role="button"] {
   background: white;
   border-radius: 1.5rem;
   padding: 1.5rem;
-  box-shadow: 0 4px 30px hsla(33,32%,40%,0.08);
-  border: 1px solid hsla(33,32%,40%,0.1);
+  box-shadow: 0 4px 30px hsla(195,70%,38%,0.08);
+  border: 1px solid hsla(195,70%,38%,0.1);
   transition: all 0.4s ease;
 }
 .social-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 50px hsla(33,32%,40%,0.15);
+  box-shadow: 0 20px 50px hsla(195,70%,38%,0.15);
 }

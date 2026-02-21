@@ -54,7 +54,7 @@ function MenuCard({ item }: { item: MenuItem }) {
   return (
     <div
       className="card-hover rounded-2xl overflow-hidden bg-card"
-      style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}
+      style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}
     >
       <div className="relative h-44 flex items-center justify-center" style={{ background: item.gradient }}>
         <span className="text-6xl">{item.emoji}</span>
