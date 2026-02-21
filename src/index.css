@@ -2,94 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Lato:wght@300;400;600;700;900&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 33% 96%;
+    --foreground: 25 40% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 25 40% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 25 40% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 33 32% 40%;
+    --primary-foreground: 40 33% 96%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 30 30% 90%;
+    --secondary-foreground: 25 40% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 30 20% 92%;
+    --muted-foreground: 25 20% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 24 50% 47%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 33 20% 85%;
+    --input: 33 20% 85%;
+    --ring: 33 32% 40%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Dezzove custom tokens */
+    --dz-brown: 25 40% 10%;
+    --dz-mocha: 33 32% 40%;
+    --dz-caramel: 24 50% 47%;
+    --dz-cream: 40 33% 96%;
+    --dz-cream-dark: 30 30% 90%;
+    --dz-rose: 0 40% 63%;
+    --dz-chocolate: 20 55% 13%;
+    --dz-gold: 36 45% 52%;
+    --dz-text-light: 25 20% 40%;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -97,9 +61,465 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ===========================
+   CUSTOM CURSOR
+   =========================== */
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E🍩%3C/text%3E%3C/svg%3E") 16 16, auto;
+}
+
+a, button, [role="button"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E🍰%3C/text%3E%3C/svg%3E") 16 16, pointer;
+}
+
+/* ===========================
+   TYPOGRAPHY
+   =========================== */
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ===========================
+   GRADIENT TEXT
+   =========================== */
+.gradient-text {
+  background: linear-gradient(135deg, hsl(33,32%,40%) 0%, hsl(24,50%,47%) 50%, hsl(36,45%,52%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, hsl(20,55%,13%) 0%, hsl(33,32%,40%) 60%, hsl(24,50%,47%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===========================
+   GLASSMORPHISM
+   =========================== */
+.glass {
+  background: hsla(40,33%,96%,0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsla(0,0%,100%,0.5);
+}
+
+.glass-dark {
+  background: hsla(20,55%,13%,0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsla(0,0%,100%,0.08);
+}
+
+.glass-card {
+  background: hsla(0,0%,100%,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsla(0,0%,100%,0.7);
+}
+
+/* ===========================
+   GRADIENTS
+   =========================== */
+.bg-cream-gradient {
+  background: linear-gradient(135deg, hsl(40,33%,96%) 0%, hsl(30,30%,90%) 50%, hsl(40,33%,96%) 100%);
+}
+
+.bg-dessert-gradient {
+  background: linear-gradient(160deg, hsl(40,33%,96%) 0%, hsl(35,35%,93%) 35%, hsl(30,30%,90%) 65%, hsl(40,33%,96%) 100%);
+}
+
+.bg-mocha-gradient {
+  background: linear-gradient(135deg, hsl(20,55%,13%) 0%, hsl(25,45%,20%) 50%, hsl(33,32%,40%) 100%);
+}
+
+.bg-primary-gradient {
+  background: linear-gradient(135deg, hsl(33,32%,40%) 0%, hsl(30,38%,45%) 50%, hsl(24,50%,47%) 100%);
+}
+
+.bg-hero-gradient {
+  background: linear-gradient(160deg, hsl(40,33%,96%) 0%, hsl(35,35%,93%) 30%, hsl(30,30%,90%) 60%, hsl(40,33%,96%) 100%);
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsla(33,32%,40%,0.25); }
+  50% { box-shadow: 0 0 45px hsla(33,32%,40%,0.55); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-float { animation: float 3.5s ease-in-out infinite; }
+.animate-float-slow { animation: float-slow 5s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 25s linear infinite; }
+.animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
+.animate-marquee { animation: marquee 20s linear infinite; }
+
+/* ===========================
+   SCROLL REVEAL
+   =========================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(45px);
+  transition: all 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-45px);
+  transition: all 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(45px);
+  transition: all 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: all 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+/* ===========================
+   BUTTONS
+   =========================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  text-decoration: none;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsl(24,50%,47%), hsl(36,45%,52%));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-primary:hover::after { opacity: 1; }
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px hsla(33,32%,40%,0.45);
+}
+.btn-primary > * { position: relative; z-index: 1; }
+.btn-primary span { position: relative; z-index: 1; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid hsl(33,32%,40%);
+  color: hsl(33,32%,40%);
+  padding: 0.75rem 1.875rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  background: transparent;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background: hsl(33,32%,40%);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px hsla(33,32%,40%,0.3);
+}
+
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: white;
+  color: hsl(33,32%,40%);
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+}
+.btn-white:hover {
+  background: hsl(30,30%,90%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px hsla(0,0%,0%,0.15);
+}
+
+/* ===========================
+   CARD HOVER
+   =========================== */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px hsla(33,32%,40%,0.18);
+}
+
+/* ===========================
+   MENU FILTER
+   =========================== */
+.menu-filter-btn {
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  transition: all 0.3s ease;
+  border: 2px solid hsla(33,32%,40%,0.2);
+  color: hsl(25,20%,40%);
+  background: white;
+  white-space: nowrap;
+}
+.menu-filter-btn:hover {
+  border-color: hsl(33,32%,40%);
+  color: hsl(33,32%,40%);
+}
+.menu-filter-btn.active {
+  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 6px 20px hsla(33,32%,40%,0.35);
+}
+
+/* ===========================
+   INSTAGRAM GALLERY
+   =========================== */
+.insta-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+.insta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsla(33,32%,40%,0.85), hsla(24,50%,47%,0.75));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+}
+.insta-item:hover .insta-overlay {
+  opacity: 1;
+}
+
+/* ===========================
+   SECTION TAGS
+   =========================== */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 9999px;
+  background: hsla(33,32%,40%,0.1);
+  color: hsl(33,32%,40%);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid hsla(33,32%,40%,0.2);
+}
+
+/* ===========================
+   DECORATIVE
+   =========================== */
+.deco-line {
+  width: 3.5rem;
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  display: block;
+}
+
+/* ===========================
+   BADGE
+   =========================== */
+.badge-new {
+  background: linear-gradient(135deg, hsl(30,30%,90%), hsl(40,33%,96%));
+  color: hsl(20,55%,13%);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.badge-hot {
+  background: linear-gradient(135deg, hsl(24,50%,47%), hsl(36,45%,52%));
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.badge-bestseller {
+  background: linear-gradient(135deg, hsl(33,32%,40%), hsl(24,50%,47%));
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+/* ===========================
+   TICKER / MARQUEE
+   =========================== */
+.ticker-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-inner {
+  display: inline-flex;
+  animation: marquee 22s linear infinite;
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+.navbar-scrolled {
+  box-shadow: 0 4px 30px hsla(33,32%,40%,0.12);
+}
+
+/* ===========================
+   SCROLLBAR
+   =========================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: hsl(40,33%,96%); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, hsl(33,32%,40%), hsl(24,50%,47%));
+  border-radius: 3px;
+}
+
+/* ===========================
+   SECTION PADDING
+   =========================== */
+.section-pad {
+  padding: 5rem 0;
+}
+
+/* ===========================
+   FORM INPUTS
+   =========================== */
+.dz-input {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.875rem;
+  border: 1.5px solid hsla(33,32%,40%,0.2);
+  background: white;
+  font-size: 0.9375rem;
+  color: hsl(25,40%,10%);
+  transition: all 0.3s ease;
+  outline: none;
+}
+.dz-input:focus {
+  border-color: hsl(33,32%,40%);
+  box-shadow: 0 0 0 3px hsla(33,32%,40%,0.12);
+}
+.dz-input::placeholder {
+  color: hsl(25,20%,65%);
+}
+
+/* Social card */
+.social-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 30px hsla(33,32%,40%,0.08);
+  border: 1px solid hsla(33,32%,40%,0.1);
+  transition: all 0.4s ease;
+}
+.social-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px hsla(33,32%,40%,0.15);
 }
