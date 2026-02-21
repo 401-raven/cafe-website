@@ -11,8 +11,8 @@ const specials = [
     price: "₹549",
     tag: "#1 Trending",
     emoji: "🏆",
-    color: "#3d2b1f",
-    accent: "#826a45",
+    color: "#0c3547",
+    accent: "#1a7fa8",
     stats: { orders: "200+/week", rating: "5.0", saves: "12K+" },
   },
   {
@@ -33,8 +33,8 @@ const specials = [
     price: "₹349",
     tag: "Chef's Pick",
     emoji: "☁️",
-    color: "#5c4a30",
-    accent: "#d4956a",
+    color: "#1a5070",
+    accent: "#3aa8d0",
     stats: { orders: "150+/week", rating: "4.9", saves: "9K+" },
   },
 ];

@@ -49,7 +49,7 @@ export default function ContactUs() {
             {/* Left visual */}
             <div className="relative reveal-left">
               <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2 rounded-3xl overflow-hidden h-64 relative" style={{ background: "linear-gradient(135deg, #3d2b1f 0%, #826a45 100%)" }}>
+                <div className="col-span-2 rounded-3xl overflow-hidden h-64 relative" style={{ background: "linear-gradient(135deg, hsl(205,65%,12%) 0%, hsl(195,70%,38%) 100%)" }}>
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
                     <span className="text-6xl mb-3">🍰</span>
                     <h3 className="font-display text-2xl font-bold mb-1" style={{ color: "white" }}>Est. 2023</h3>
@@ -57,13 +57,13 @@ export default function ContactUs() {
                   </div>
                   <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20" style={{ background: "rgba(255,255,255,0.3)" }} />
                 </div>
-                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36 bg-secondary" style={{ border: "1px solid hsla(33,32%,40%,0.15)" }}>
+                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36 bg-secondary" style={{ border: "1px solid hsla(195,70%,38%,0.15)" }}>
                   <span className="text-3xl mb-2">☕</span>
                   <p className="text-xs font-bold text-primary uppercase tracking-wider">Artisan Beverages</p>
                 </div>
-                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36" style={{ background: "linear-gradient(135deg, #f2c4c4, #fdf8f0)", border: "1px solid rgba(232,160,160,0.3)" }}>
+                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36" style={{ background: "linear-gradient(135deg, hsl(195,35%,92%), hsl(195,40%,97%))", border: "1px solid hsla(195,70%,38%,0.2)" }}>
                   <span className="text-3xl mb-2">🍓</span>
-                  <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#c05a5a" }}>Fresh Specials</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-primary">Fresh Specials</p>
                 </div>
               </div>
               <div className="absolute -right-4 top-1/3 glass rounded-2xl p-4 shadow-xl hidden lg:block animate-float-slow">
@@ -93,7 +93,7 @@ export default function ContactUs() {
                   { emoji: "❤️", text: "Handcrafted Daily" },
                   { emoji: "🎨", text: "Insta-Worthy Plating" },
                 ].map((item) => (
-                  <div key={item.text} className="flex items-center gap-2.5 p-3 rounded-xl bg-secondary" style={{ border: "1px solid hsla(33,32%,40%,0.12)" }}>
+                  <div key={item.text} className="flex items-center gap-2.5 p-3 rounded-xl bg-secondary" style={{ border: "1px solid hsla(195,70%,38%,0.12)" }}>
                     <span className="text-lg">{item.emoji}</span>
                     <span className="text-sm font-semibold text-foreground">{item.text}</span>
                   </div>
@@ -108,7 +108,7 @@ export default function ContactUs() {
               const Icon = value.icon;
               const delays = ["delay-100", "delay-200", "delay-300", "delay-400"];
               return (
-                <div key={value.title} className={`reveal ${delays[idx]} card-hover text-center p-6 rounded-2xl bg-card`} style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}>
+                <div key={value.title} className={`reveal ${delays[idx]} card-hover text-center p-6 rounded-2xl bg-card`} style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
                   <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-secondary">
                     <Icon size={22} className="text-primary" />
                   </div>
@@ -133,7 +133,7 @@ export default function ContactUs() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {/* Opening Hours */}
-            <div className="reveal card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}>
+            <div className="reveal card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
                 <Clock size={24} color="white" />
               </div>
@@ -146,7 +146,7 @@ export default function ContactUs() {
             </div>
 
             {/* Contact on WhatsApp */}
-            <div className="reveal delay-100 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}>
+            <div className="reveal delay-100 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: "#25D366" }}>
                 <MessageCircle size={24} color="white" />
               </div>
@@ -164,7 +164,7 @@ export default function ContactUs() {
             </div>
 
             {/* Book a Table */}
-            <div className="reveal delay-200 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}>
+            <div className="reveal delay-200 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
                 <Phone size={24} color="white" />
               </div>
@@ -181,7 +181,7 @@ export default function ContactUs() {
             </div>
 
             {/* Location */}
-            <div className="reveal delay-300 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 20px hsla(33,32%,40%,0.06)" }}>
+            <div className="reveal delay-300 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
                 <MapPin size={24} color="white" />
               </div>
@@ -193,7 +193,7 @@ export default function ContactUs() {
           </div>
 
           {/* Map */}
-          <div className="reveal rounded-3xl overflow-hidden shadow-xl mb-12" style={{ border: "1px solid hsla(33,32%,40%,0.1)" }}>
+          <div className="reveal rounded-3xl overflow-hidden shadow-xl mb-12" style={{ border: "1px solid hsla(195,70%,38%,0.1)" }}>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.123456789!2d72.8777!3d19.0760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInMzkuNyJF!5e0!3m2!1sen!2sin!4v1234567890"
               width="100%"
@@ -208,7 +208,7 @@ export default function ContactUs() {
 
           {/* Contact Form */}
           <div className="reveal max-w-2xl mx-auto">
-            <div className="rounded-3xl p-8 bg-card" style={{ border: "1px solid hsla(33,32%,40%,0.1)", boxShadow: "0 4px 30px hsla(33,32%,40%,0.08)" }}>
+            <div className="rounded-3xl p-8 bg-card" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 30px hsla(195,70%,38%,0.08)" }}>
               <h3 className="font-display font-bold text-xl mb-6 text-center text-foreground">Send us a message</h3>
               <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Message sent! We'll get back to you soon 💕"); }}>
                 <div className="grid sm:grid-cols-2 gap-4">
