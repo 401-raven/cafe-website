@@ -1,11 +1,20 @@
-import { Suspense } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
-import DoracakeScene from "@/components/DoracakeScene";
 import Navbar from "@/components/DezzoveNavbar";
 import Footer from "@/components/Footer";
+import dezzoveLogo from "@/assets/dezzove-logo-new.png";
+import cakeLevitate from "@/assets/cake-levitate.mp4";
+import cakePour from "@/assets/cake-pour.mp4";
 
 export default function Index() {
+  const [pouring, setPouring] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoClick = () => {
+    setPouring((prev) => !prev);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -16,52 +25,45 @@ export default function Index() {
         <div
           className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none"
           style={{
-            background: "radial-gradient(circle, hsl(30,30%,90%) 0%, hsl(24,50%,47%,0.3) 40%, transparent 70%)",
+            background: "radial-gradient(circle, hsl(190,60%,70%) 0%, hsl(200,50%,40%,0.3) 40%, transparent 70%)",
             filter: "blur(60px)",
           }}
         />
         <div
           className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none"
           style={{
-            background: "radial-gradient(circle, hsl(36,45%,52%,0.3) 0%, hsl(33,32%,40%,0.2) 40%, transparent 70%)",
+            background: "radial-gradient(circle, hsl(195,55%,50%,0.3) 0%, hsl(200,40%,35%,0.2) 40%, transparent 70%)",
             filter: "blur(60px)",
           }}
         />
 
-        {/* Floating food emojis */}
-        {[
-          { emoji: "🍰", pos: "top-[15%] left-[8%]", delay: "0s" },
-          { emoji: "🥤", pos: "top-[22%] right-[10%]", delay: "0.8s" },
-          { emoji: "🧇", pos: "bottom-[28%] left-[6%]", delay: "1.5s" },
-          { emoji: "🍫", pos: "bottom-[20%] right-[8%]", delay: "0.4s" },
-        ].map((item) => (
-          <div
-            key={item.emoji}
-            className={`absolute ${item.pos} hidden md:flex flex-col items-center gap-1 animate-float-slow pointer-events-none`}
-            style={{ animationDelay: item.delay }}
-          >
-            <div className="glass rounded-2xl p-3 shadow-lg">
-              <span className="text-3xl">{item.emoji}</span>
-            </div>
-          </div>
-        ))}
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 pb-16">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            {/* Left — 3D Doracake */}
-            <div className="order-2 lg:order-1">
-              <Suspense
-                fallback={
-                  <div className="w-full h-[400px] flex items-center justify-center">
-                    <div className="text-4xl animate-bounce-gentle">🍩</div>
-                  </div>
-                }
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left — Video */}
+            <div className="order-2 lg:order-1 flex justify-center">
+              <div
+                className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] rounded-3xl overflow-hidden shadow-2xl cursor-pointer group"
+                onClick={handleVideoClick}
               >
-                <DoracakeScene />
-              </Suspense>
+                <video
+                  ref={videoRef}
+                  key={pouring ? "pour" : "levitate"}
+                  src={pouring ? cakePour : cakeLevitate}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="glass text-xs px-3 py-1.5 rounded-full text-foreground font-medium">
+                    {pouring ? "Click to stop" : "Click to pour chocolate 🍫"}
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Right — CTA */}
+            {/* Right — Logo + CTA */}
             <div className="text-center lg:text-right order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 mb-5">
                 <span className="section-tag">
@@ -70,18 +72,18 @@ export default function Index() {
                 </span>
               </div>
 
-              <h1
-                className="font-display font-black leading-[1.05] mb-5"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
-              >
-                <span className="gradient-text-warm">Artisan</span>
-                <br />
-                <span className="gradient-text">Desserts</span>
-                <br />
-                <span className="text-foreground">Crafted with 💕</span>
-              </h1>
+              {/* Circular Logo */}
+              <div className="flex justify-center lg:justify-end mb-6">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-primary/30 shadow-xl">
+                  <img
+                    src={dezzoveLogo}
+                    alt="Dezzove Dessert Shop Logo"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
 
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:ml-auto lg:mr-0">
+              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:ml-auto lg:mr-0">
                 From dreamy thick shakes to decadent waffles and signature cakes.
                 Your sweetest escape awaits.
               </p>
