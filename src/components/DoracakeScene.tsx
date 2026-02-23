@@ -1,52 +1,104 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-function ChocolateDrip({ position, delay, speed }: { position: [number, number, number]; delay: number; speed: number }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const [startTime] = useState(() => Date.now() + delay * 1000);
-
-  useFrame(() => {
-    if (!meshRef.current) return;
-    const elapsed = (Date.now() - startTime) / 1000;
-    if (elapsed < 0) {
-      meshRef.current.visible = false;
-      return;
-    }
-    meshRef.current.visible = true;
-    const y = position[1] - elapsed * speed * 0.5;
-    const scale = Math.max(0.02, 0.08 - elapsed * 0.015);
-    meshRef.current.position.y = y;
-    meshRef.current.scale.set(scale, Math.min(scale * 3, scale + elapsed * 0.1), scale);
-    if (y < -1.5) {
-      meshRef.current.visible = false;
-    }
-  });
-
+/* ── Chocolate chip (small rough sphere) ── */
+function Chip({ position, color }: { position: [number, number, number]; color: string }) {
   return (
-    <mesh ref={meshRef} position={position}>
-      <sphereGeometry args={[1, 12, 12]} />
-      <meshStandardMaterial color="#3d1c02" roughness={0.2} metalness={0.1} />
+    <mesh position={position} castShadow>
+      <dodecahedronGeometry args={[0.045, 0]} />
+      <meshStandardMaterial color={color} roughness={0.6} metalness={0.05} />
     </mesh>
   );
 }
 
+/* ── Scatter chips on a disc surface ── */
+function ChipScatter({ y, radius, count, seed }: { y: number; radius: number; count: number; seed: number }) {
+  const chips = useMemo(() => {
+    const arr: { pos: [number, number, number]; color: string }[] = [];
+    const rng = (i: number) => Math.abs(Math.sin(seed * 100 + i * 9301 + 49297) % 1);
+    for (let i = 0; i < count; i++) {
+      const angle = rng(i) * Math.PI * 2;
+      const r = rng(i + 100) * radius * 0.85;
+      const yOff = rng(i + 200) * 0.03;
+      const isVanilla = rng(i + 300) > 0.5;
+      arr.push({
+        pos: [Math.cos(angle) * r, y + yOff, Math.sin(angle) * r],
+        color: isVanilla ? "#f5e6c8" : "#2a1506",
+      });
+    }
+    return arr;
+  }, [y, radius, count, seed]);
+
+  return (
+    <>
+      {chips.map((c, i) => (
+        <Chip key={i} position={c.pos} color={c.color} />
+      ))}
+    </>
+  );
+}
+
+/* ── Single drip of thick chocolate ── */
+function GravyDrip({ startPos, delay, speed }: { startPos: [number, number, number]; delay: number; speed: number }) {
+  const ref = useRef<THREE.Mesh>(null);
+  const startTime = useRef(performance.now() + delay * 1000);
+
+  useFrame(() => {
+    if (!ref.current) return;
+    const t = (performance.now() - startTime.current) / 1000;
+    if (t < 0) { ref.current.visible = false; return; }
+    ref.current.visible = true;
+
+    // fall with slight acceleration
+    const fall = t * speed + t * t * 0.3;
+    const y = startPos[1] - fall;
+    // stretch vertically as it falls
+    const sx = 0.06 - t * 0.008;
+    const sy = 0.06 + t * 0.12;
+    if (sx < 0.01 || y < -1.8) { ref.current.visible = false; return; }
+    ref.current.position.set(startPos[0], y, startPos[2]);
+    ref.current.scale.set(sx, sy, sx);
+  });
+
+  return (
+    <mesh ref={ref} visible={false}>
+      <sphereGeometry args={[1, 10, 10]} />
+      <meshStandardMaterial color="#1a0a02" roughness={0.15} metalness={0.2} />
+    </mesh>
+  );
+}
+
+/* ── Thick chocolate gravy pour effect ── */
 function ChocolatePour({ active }: { active: boolean }) {
   const drips = useMemo(() => {
     if (!active) return [];
-    const result = [];
-    for (let i = 0; i < 20; i++) {
-      const angle = (i / 20) * Math.PI * 2;
-      const radius = 0.25 + Math.random() * 0.15;
+    const result: { startPos: [number, number, number]; delay: number; speed: number }[] = [];
+    // central thick stream
+    for (let i = 0; i < 15; i++) {
       result.push({
-        position: [
-          Math.cos(angle) * radius,
-          0.45,
-          Math.sin(angle) * radius,
-        ] as [number, number, number],
-        delay: Math.random() * 1.5,
-        speed: 0.5 + Math.random() * 0.5,
+        startPos: [
+          (Math.random() - 0.5) * 0.08,
+          1.6 + Math.random() * 0.3,
+          (Math.random() - 0.5) * 0.08,
+        ],
+        delay: i * 0.07,
+        speed: 0.6 + Math.random() * 0.25,
+      });
+    }
+    // side drips that run down the cake
+    for (let i = 0; i < 18; i++) {
+      const angle = (i / 18) * Math.PI * 2 + Math.random() * 0.3;
+      const r = 0.28 + Math.random() * 0.12;
+      result.push({
+        startPos: [
+          Math.cos(angle) * r,
+          0.55 + Math.random() * 0.1,
+          Math.sin(angle) * r,
+        ],
+        delay: 0.6 + Math.random() * 1.2,
+        speed: 0.3 + Math.random() * 0.2,
       });
     }
     return result;
@@ -56,74 +108,94 @@ function ChocolatePour({ active }: { active: boolean }) {
 
   return (
     <group>
-      {/* Chocolate pool on top */}
-      <mesh position={[0, 0.42, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.38, 32]} />
-        <meshStandardMaterial color="#2c1000" roughness={0.15} metalness={0.2} />
+      {/* Chocolate pool spreading on top */}
+      <mesh position={[0, 0.56, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.36, 32]} />
+        <meshStandardMaterial color="#1a0a02" roughness={0.1} metalness={0.25} transparent opacity={0.92} />
       </mesh>
-      {drips.map((drip, i) => (
-        <ChocolateDrip key={i} {...drip} />
+      {/* Stream column */}
+      <mesh position={[0, 1.05, 0]}>
+        <cylinderGeometry args={[0.04, 0.06, 1.0, 12]} />
+        <meshStandardMaterial color="#1a0a02" roughness={0.1} metalness={0.3} transparent opacity={0.85} />
+      </mesh>
+      {drips.map((d, i) => (
+        <GravyDrip key={i} {...d} />
       ))}
     </group>
   );
 }
 
-function Doracake({ onClick, chocolateActive }: { onClick: () => void; chocolateActive: boolean }) {
+/* ── Fluffy stacked dessert (dorayaki-inspired) ── */
+function Dessert({ onClick, chocolateActive }: { onClick: () => void; chocolateActive: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * (chocolateActive ? 1.5 : 0.4);
+      groupRef.current.rotation.y += delta * (chocolateActive ? 1.8 : 0.35);
     }
   });
 
-  // Doracake = two fluffy pancake discs with cream filling
-  const pancakeColor = "#c4813a";
-  const creamColor = "#fff5e6";
-  const topGlaze = "#d4956a";
+  const cakeColor = "#c98a4b";
+  const cakeTop = "#d49a5a";
+  const creamColor = "#fff8ee";
 
   return (
-    <group ref={groupRef} onClick={onClick}>
-      {/* Bottom pancake */}
-      <mesh position={[0, -0.1, 0]}>
-        <cylinderGeometry args={[0.42, 0.45, 0.22, 32, 1]} />
-        <meshStandardMaterial color={pancakeColor} roughness={0.7} />
+    <group ref={groupRef} onClick={onClick} scale={1.3}>
+      {/* ─ Bottom fluffy layer ─ */}
+      <mesh position={[0, -0.18, 0]} castShadow>
+        <cylinderGeometry args={[0.48, 0.5, 0.18, 32]} />
+        <meshStandardMaterial color={cakeColor} roughness={0.75} />
       </mesh>
-      {/* Bottom pancake rounded edge */}
-      <mesh position={[0, -0.21, 0]} rotation={[Math.PI, 0, 0]}>
-        <sphereGeometry args={[0.44, 32, 16, 0, Math.PI * 2, 0, Math.PI / 6]} />
-        <meshStandardMaterial color={pancakeColor} roughness={0.7} />
+      {/* bottom rounded edge */}
+      <mesh position={[0, -0.27, 0]} rotation={[Math.PI, 0, 0]}>
+        <sphereGeometry args={[0.49, 32, 16, 0, Math.PI * 2, 0, Math.PI / 8]} />
+        <meshStandardMaterial color={cakeColor} roughness={0.75} />
       </mesh>
+      <ChipScatter y={-0.08} radius={0.42} count={10} seed={1} />
 
-      {/* Cream filling */}
-      <mesh position={[0, 0.05, 0]}>
-        <cylinderGeometry args={[0.38, 0.38, 0.08, 32]} />
-        <meshStandardMaterial color={creamColor} roughness={0.4} />
-      </mesh>
-      {/* Cream oozing out slightly */}
-      <mesh position={[0, 0.05, 0]}>
-        <torusGeometry args={[0.39, 0.035, 12, 32]} />
+      {/* ─ Cream filling ─ */}
+      <mesh position={[0, -0.02, 0]}>
+        <cylinderGeometry args={[0.42, 0.42, 0.06, 32]} />
         <meshStandardMaterial color={creamColor} roughness={0.3} />
       </mesh>
-
-      {/* Top pancake */}
-      <mesh position={[0, 0.22, 0]}>
-        <cylinderGeometry args={[0.45, 0.42, 0.22, 32, 1]} />
-        <meshStandardMaterial color={pancakeColor} roughness={0.7} />
-      </mesh>
-      {/* Top pancake dome */}
-      <mesh position={[0, 0.33, 0]}>
-        <sphereGeometry args={[0.44, 32, 16, 0, Math.PI * 2, 0, Math.PI / 4]} />
-        <meshStandardMaterial color={topGlaze} roughness={0.5} />
+      <mesh position={[0, -0.02, 0]}>
+        <torusGeometry args={[0.43, 0.04, 10, 32]} />
+        <meshStandardMaterial color={creamColor} roughness={0.25} />
       </mesh>
 
-      {/* Little stamp/brand mark on top */}
-      <mesh position={[0, 0.46, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.12, 32]} />
-        <meshStandardMaterial color="#a0622a" roughness={0.8} />
+      {/* ─ Middle fluffy layer ─ */}
+      <mesh position={[0, 0.12, 0]} castShadow>
+        <cylinderGeometry args={[0.46, 0.48, 0.16, 32]} />
+        <meshStandardMaterial color={cakeColor} roughness={0.72} />
+      </mesh>
+      <ChipScatter y={0.21} radius={0.4} count={8} seed={2} />
+
+      {/* ─ Second cream filling ─ */}
+      <mesh position={[0, 0.24, 0]}>
+        <cylinderGeometry args={[0.38, 0.38, 0.05, 32]} />
+        <meshStandardMaterial color={creamColor} roughness={0.3} />
+      </mesh>
+      <mesh position={[0, 0.24, 0]}>
+        <torusGeometry args={[0.39, 0.035, 10, 32]} />
+        <meshStandardMaterial color={creamColor} roughness={0.25} />
       </mesh>
 
-      {/* Chocolate pour effect */}
+      {/* ─ Top fluffy dome layer ─ */}
+      <mesh position={[0, 0.37, 0]} castShadow>
+        <cylinderGeometry args={[0.44, 0.46, 0.14, 32]} />
+        <meshStandardMaterial color={cakeTop} roughness={0.65} />
+      </mesh>
+      <mesh position={[0, 0.44, 0]}>
+        <sphereGeometry args={[0.43, 32, 16, 0, Math.PI * 2, 0, Math.PI / 5]} />
+        <meshStandardMaterial color={cakeTop} roughness={0.6} />
+      </mesh>
+      <ChipScatter y={0.48} radius={0.36} count={12} seed={3} />
+
+      {/* ─ Decorative chips on sides ─ */}
+      <ChipScatter y={0.0} radius={0.5} count={6} seed={4} />
+      <ChipScatter y={0.25} radius={0.48} count={6} seed={5} />
+
+      {/* Chocolate pour */}
       <ChocolatePour active={chocolateActive} />
     </group>
   );
@@ -132,32 +204,33 @@ function Doracake({ onClick, chocolateActive }: { onClick: () => void; chocolate
 export default function DoracakeScene() {
   const [chocolateActive, setChocolateActive] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
+    if (chocolateActive) return;
     setChocolateActive(true);
-    setTimeout(() => setChocolateActive(false), 4000);
-  };
+    setTimeout(() => setChocolateActive(false), 4500);
+  }, [chocolateActive]);
 
   return (
-    <div className="w-full h-[400px] md:h-[500px] lg:h-[550px]" style={{ touchAction: "none" }}>
+    <div className="w-full h-[420px] md:h-[520px] lg:h-[580px]" style={{ touchAction: "none" }}>
       <Canvas
-        camera={{ position: [0, 0.5, 2.5], fov: 45 }}
+        camera={{ position: [0, 0.6, 2.8], fov: 42 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[3, 5, 2]} intensity={1.2} castShadow />
-        <directionalLight position={[-2, 3, -1]} intensity={0.4} color="#ffd4a0" />
-        <pointLight position={[0, -1, 2]} intensity={0.3} color="#fff0d0" />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[4, 6, 3]} intensity={1.4} castShadow />
+        <directionalLight position={[-3, 4, -2]} intensity={0.35} color="#b0d0ff" />
+        <pointLight position={[0, -2, 3]} intensity={0.25} color="#ffe8c0" />
 
-        <Float speed={2} rotationIntensity={0.1} floatIntensity={0.8}>
-          <Doracake onClick={handleClick} chocolateActive={chocolateActive} />
+        <Float speed={1.8} rotationIntensity={0.08} floatIntensity={0.7}>
+          <Dessert onClick={handleClick} chocolateActive={chocolateActive} />
         </Float>
 
         <Environment preset="studio" />
       </Canvas>
 
       <p className="text-center text-sm text-muted-foreground mt-2 animate-bounce-gentle">
-        ✨ Click the doracake for a chocolate surprise! ✨
+        ✨ Click the dessert for a chocolate gravy pour! ✨
       </p>
     </div>
   );
