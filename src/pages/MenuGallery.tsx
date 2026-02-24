@@ -3,61 +3,70 @@ import { ShoppingCart, Star, Instagram, Heart, MessageCircle, Bookmark } from "l
 import Navbar from "@/components/DezzoveNavbar";
 import Footer from "@/components/Footer";
 
+import imgLotusCake from "@/assets/menu-lotus-cake.jpeg";
+import imgChocoPancake from "@/assets/menu-choco-pancake.jpeg";
+import imgMoonCake from "@/assets/menu-moon-cake.jpeg";
+import imgDryFruitBowl from "@/assets/menu-dry-fruit-bowl.jpeg";
+import imgChocoShake from "@/assets/menu-choco-shake.jpeg";
+import imgChocoChipsBowl from "@/assets/menu-choco-chips-bowl.jpeg";
+import imgMangoBowl from "@/assets/menu-mango-bowl.jpeg";
+import imgBlueLemonade from "@/assets/menu-blue-lemonade.jpeg";
+import imgChocoStrawberry from "@/assets/menu-choco-strawberry.jpeg";
+import imgBrownie from "@/assets/menu-brownie.jpeg";
+
 type MenuItem = {
   id: number;
   name: string;
   desc: string;
   price: string;
   category: string;
-  emoji: string;
+  image: string;
   badge?: string;
   rating: number;
-  gradient: string;
 };
 
 const categories = [
   { id: "all", label: "All Items", emoji: "✨" },
-  { id: "shakes", label: "Thick Shakes", emoji: "🥤" },
-  { id: "waffles", label: "Waffles", emoji: "🧇" },
-  { id: "cakes", label: "Cakes & Slices", emoji: "🍰" },
-  { id: "coffee", label: "Coffee", emoji: "☕" },
+  { id: "cakes", label: "Cakes & Tins", emoji: "🍰" },
+  { id: "bowls", label: "Dessert Bowls", emoji: "🍨" },
+  { id: "drinks", label: "Drinks", emoji: "🥤" },
   { id: "specials", label: "Specials", emoji: "⭐" },
 ];
 
 const menuItems: MenuItem[] = [
-  { id: 1, name: "Nutella Dream Shake", desc: "Thick creamy Nutella shake with whipped cream and hazelnut crumble", price: "₹199", category: "shakes", emoji: "🥤", badge: "bestseller", rating: 4.9, gradient: "linear-gradient(135deg, #c8a87a, #826a45)" },
-  { id: 2, name: "Strawberry Cloud Shake", desc: "Fresh strawberry purée blended with vanilla ice cream and cream clouds", price: "₹179", category: "shakes", emoji: "🍓", badge: "new", rating: 4.8, gradient: "linear-gradient(135deg, #e8a0a0, #f2c4c4)" },
-  { id: 3, name: "Belgian Waffle Stack", desc: "Crispy golden waffles with maple syrup, berries, and whipped cream", price: "₹229", category: "waffles", emoji: "🧇", badge: "hot", rating: 4.9, gradient: "linear-gradient(135deg, #d4956a, #f9e4c8)" },
-  { id: 4, name: "Choco Lava Waffle", desc: "Warm waffle infused with dark chocolate and vanilla gelato", price: "₹249", category: "waffles", emoji: "🍫", rating: 4.7, gradient: "linear-gradient(135deg, #3d2b1f, #826a45)" },
-  { id: 5, name: "Dezzove Signature Cake", desc: "6-layer mocha-caramel cake with gold drip and edible flowers", price: "₹149/slice", category: "cakes", emoji: "🎂", badge: "bestseller", rating: 5.0, gradient: "linear-gradient(135deg, #826a45, #c8a87a)" },
-  { id: 6, name: "Red Velvet Slice", desc: "Classic red velvet with cream cheese frosting and velvet crumbs", price: "₹129/slice", category: "cakes", emoji: "🍰", rating: 4.8, gradient: "linear-gradient(135deg, #c05a5a, #e8a0a0)" },
-  { id: 7, name: "Caramel Dalgona Latte", desc: "Signature dalgona coffee with house-made caramel sauce over iced milk", price: "₹159", category: "coffee", emoji: "☕", badge: "new", rating: 4.9, gradient: "linear-gradient(135deg, #5c4a30, #d4956a)" },
-  { id: 8, name: "Hot Chocolate Supreme", desc: "Rich Belgian dark chocolate with marshmallows and cocoa dusting", price: "₹149", category: "coffee", emoji: "🍵", rating: 4.7, gradient: "linear-gradient(135deg, #3d2b1f, #c8a87a)" },
-  { id: 9, name: "Cheesecake Overload", desc: "New York baked cheesecake with mixed berry compote and lotus crumble", price: "₹199", category: "specials", emoji: "🫐", badge: "hot", rating: 5.0, gradient: "linear-gradient(135deg, #826a45, #f2c4c4)" },
-  { id: 10, name: "Mango Tango Shake", desc: "Thick Alphonso mango shake with mango coulis and dried mango chips", price: "₹189", category: "shakes", emoji: "🥭", rating: 4.8, gradient: "linear-gradient(135deg, #d4956a, #f9e4c8)" },
-  { id: 11, name: "Truffle Waffle Delight", desc: "Waffle with mushroom truffle glaze, smoked cheese, and microgreens", price: "₹269", category: "waffles", emoji: "🌿", rating: 4.7, gradient: "linear-gradient(135deg, #5c4a30, #826a45)" },
-  { id: 12, name: "Dezzove Special Platter", desc: "A curated dessert board with 5 chef's picks — perfect for sharing", price: "₹449", category: "specials", emoji: "🎭", badge: "bestseller", rating: 5.0, gradient: "linear-gradient(135deg, #826a45, #d4956a)" },
+  { id: 1, name: "Lotus Biscoff Cake Tin", desc: "Creamy Lotus Biscoff mousse in a signature golden tin with cookie crumble topping", price: "₹349", category: "cakes", image: imgLotusCake, badge: "bestseller", rating: 4.9 },
+  { id: 2, name: "Chocolate Doracake", desc: "Thick dorayaki-style pancake drenched in dark chocolate ganache with choco chips", price: "₹199", category: "cakes", image: imgChocoPancake, badge: "hot", rating: 4.8 },
+  { id: 3, name: "Moonlight Truffle Tin", desc: "Rich dark chocolate truffle cake with elegant golden moon topper in a premium tin", price: "₹399", category: "cakes", image: imgMoonCake, rating: 5.0 },
+  { id: 4, name: "Dry Fruit Overload Bowl", desc: "Creamy dessert bowl loaded with pistachios, almonds, cashews, and dried fruits", price: "₹249", category: "bowls", image: imgDryFruitBowl, badge: "new", rating: 4.7 },
+  { id: 5, name: "Chocolate Mud Shake", desc: "Thick chocolate shake with layers of chocolate ganache dripping down the glass", price: "₹179", category: "drinks", image: imgChocoShake, rating: 4.8 },
+  { id: 6, name: "Choco Chips Lava Bowl", desc: "Overflowing chocolate dessert bowl topped with a mountain of dark chocolate chips", price: "₹229", category: "bowls", image: imgChocoChipsBowl, badge: "bestseller", rating: 4.9 },
+  { id: 7, name: "Fresh Mango Bowl", desc: "Seasonal Alphonso mango chunks on a creamy mango base — summer's favorite", price: "₹199", category: "bowls", image: imgMangoBowl, badge: "new", rating: 4.8 },
+  { id: 8, name: "Blue Ocean Lemonade", desc: "Refreshing blue curaçao lemonade with fresh mint and lemon slice", price: "₹149", category: "drinks", image: imgBlueLemonade, rating: 4.6 },
+  { id: 9, name: "Chocolate Strawberry Cup", desc: "Fresh strawberries drizzled with rich dark chocolate — a classic indulgence", price: "₹219", category: "specials", image: imgChocoStrawberry, badge: "hot", rating: 4.9 },
+  { id: 10, name: "Loaded Brownie Slab", desc: "Dense fudgy brownie drenched in chocolate sauce and topped with white & dark choco chips", price: "₹189", category: "specials", image: imgBrownie, badge: "bestseller", rating: 5.0 },
 ];
 
 const galleryItems = [
-  { id: 1, emoji: "🍰", label: "Signature Cake", likes: "2.4K", comments: "143", bg: "linear-gradient(135deg, #826a45, #c8a87a)", span: "col-span-1 row-span-2" },
-  { id: 2, emoji: "🥤", label: "Mango Shake", likes: "1.8K", comments: "89", bg: "linear-gradient(135deg, #d4956a, #f9e4c8)", span: "col-span-1 row-span-1" },
-  { id: 3, emoji: "🧇", label: "Belgian Waffle", likes: "3.1K", comments: "201", bg: "linear-gradient(135deg, #5c4a30, #d4956a)", span: "col-span-1 row-span-1" },
-  { id: 4, emoji: "🍫", label: "Choco Lava", likes: "2.9K", comments: "178", bg: "linear-gradient(135deg, #3d2b1f, #826a45)", span: "col-span-2 row-span-1" },
-  { id: 5, emoji: "🦄", label: "Unicorn Shake", likes: "5.2K", comments: "312", bg: "linear-gradient(135deg, #c05a5a, #f2c4c4)", span: "col-span-1 row-span-1" },
-  { id: 6, emoji: "☕", label: "Dalgona Latte", likes: "1.6K", comments: "97", bg: "linear-gradient(135deg, #5c4a30, #a8885a)", span: "col-span-1 row-span-1" },
-  { id: 7, emoji: "🍓", label: "Strawberry Cake", likes: "2.2K", comments: "134", bg: "linear-gradient(135deg, #e8a0a0, #fdf8f0)", span: "col-span-1 row-span-2" },
-  { id: 8, emoji: "🎂", label: "Birthday Cake", likes: "4.1K", comments: "256", bg: "linear-gradient(135deg, #826a45, #f2c4c4)", span: "col-span-1 row-span-1" },
+  { id: 1, image: imgBrownie, label: "Loaded Brownie", likes: "2.4K", comments: "143", span: "col-span-2 row-span-2" },
+  { id: 2, image: imgMangoBowl, label: "Mango Bowl", likes: "1.8K", comments: "89", span: "col-span-1 row-span-1" },
+  { id: 3, image: imgChocoStrawberry, label: "Choco Strawberry", likes: "3.1K", comments: "201", span: "col-span-1 row-span-1" },
+  { id: 4, image: imgChocoPancake, label: "Doracake", likes: "2.9K", comments: "178", span: "col-span-1 row-span-1" },
+  { id: 5, image: imgLotusCake, label: "Lotus Cake", likes: "5.2K", comments: "312", span: "col-span-1 row-span-1" },
+  { id: 6, image: imgBlueLemonade, label: "Blue Lemonade", likes: "1.6K", comments: "97", span: "col-span-1 row-span-1" },
+  { id: 7, image: imgMoonCake, label: "Moonlight Truffle", likes: "2.2K", comments: "134", span: "col-span-1 row-span-1" },
+  { id: 8, image: imgChocoChipsBowl, label: "Choco Chips Bowl", likes: "4.1K", comments: "256", span: "col-span-1 row-span-1" },
+  { id: 9, image: imgDryFruitBowl, label: "Dry Fruit Bowl", likes: "1.9K", comments: "112", span: "col-span-1 row-span-1" },
+  { id: 10, image: imgChocoShake, label: "Chocolate Shake", likes: "2.7K", comments: "165", span: "col-span-1 row-span-1" },
 ];
 
 function MenuCard({ item }: { item: MenuItem }) {
   return (
     <div
       className="card-hover rounded-2xl overflow-hidden bg-card"
-      style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}
+      style={{ border: "1px solid hsl(var(--border))", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}
     >
-      <div className="relative h-44 flex items-center justify-center" style={{ background: item.gradient }}>
-        <span className="text-6xl">{item.emoji}</span>
+      <div className="relative h-48 overflow-hidden">
+        <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
         {item.badge && (
           <div className={`badge-${item.badge} absolute top-3 right-3`}>
             {item.badge === "new" ? "New" : item.badge === "hot" ? "🔥 Hot" : "⭐ Bestseller"}
@@ -65,7 +74,7 @@ function MenuCard({ item }: { item: MenuItem }) {
         )}
         <div className="absolute bottom-3 left-3 flex items-center gap-1 glass px-2.5 py-1 rounded-full">
           <Star size={10} fill="#d4956a" stroke="none" />
-          <span className="text-xs font-bold text-primary">{item.rating}</span>
+          <span className="text-xs font-bold text-primary-foreground">{item.rating}</span>
         </div>
       </div>
       <div className="p-4">
@@ -89,9 +98,7 @@ function GalleryItem({ item }: { item: typeof galleryItems[0] }) {
 
   return (
     <div className={`insta-item ${item.span}`} style={{ minHeight: "180px" }}>
-      <div className="w-full h-full flex items-center justify-center rounded-2xl" style={{ background: item.bg, minHeight: "inherit" }}>
-        <span className="text-5xl pointer-events-none">{item.emoji}</span>
-      </div>
+      <img src={item.image} alt={item.label} className="w-full h-full object-cover rounded-2xl" style={{ minHeight: "inherit" }} />
       <div className="insta-overlay">
         <div className="flex flex-col items-center gap-3 p-4 w-full">
           <p className="font-display font-bold text-sm text-center text-primary-foreground">{item.label}</p>
@@ -109,14 +116,14 @@ function GalleryItem({ item }: { item: typeof galleryItems[0] }) {
             <button
               onClick={() => setLiked(!liked)}
               className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-              style={{ background: liked ? "#c05a5a" : "rgba(255,255,255,0.25)" }}
+              style={{ background: liked ? "hsl(var(--destructive))" : "rgba(255,255,255,0.25)" }}
             >
               <Heart size={14} fill={liked ? "white" : "none"} stroke="white" />
             </button>
             <button
               onClick={() => setSaved(!saved)}
               className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-              style={{ background: saved ? "#826a45" : "rgba(255,255,255,0.25)" }}
+              style={{ background: saved ? "hsl(var(--primary))" : "rgba(255,255,255,0.25)" }}
             >
               <Bookmark size={14} fill={saved ? "white" : "none"} stroke="white" />
             </button>
@@ -173,7 +180,7 @@ export default function MenuGallery() {
               Taste the <span className="gradient-text italic">Magic</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-base leading-relaxed">
-              From thick shakes that hit different to waffles that break the internet — explore our full menu of handcrafted delights.
+              From thick shakes that hit different to cakes that break the internet — explore our full menu of handcrafted delights.
             </p>
           </div>
 
@@ -215,13 +222,13 @@ export default function MenuGallery() {
             </div>
           </div>
 
-          <div className="grid gap-3 reveal" style={{ gridTemplateColumns: "repeat(3, 1fr)", gridAutoRows: "180px" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 reveal" style={{ gridAutoRows: "180px" }}>
             {galleryItems.map((item) => (
               <GalleryItem key={item.id} item={item} />
             ))}
           </div>
 
-          {/* Social proof strip with Instagram button */}
+          {/* Social proof strip */}
           <div className="mt-10 reveal">
             <div className="social-card flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
