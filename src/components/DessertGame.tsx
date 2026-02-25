@@ -234,30 +234,34 @@ export default function DessertGame() {
 
     ctx.clearRect(-10, -10, W + 20, H + 20);
 
-    // Background gradient
+    // Background — soft aquatic gradient matching website theme
     const grad = ctx.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0, 'hsl(200,45%,12%)');
-    grad.addColorStop(0.4, 'hsl(195,40%,15%)');
-    grad.addColorStop(1, 'hsl(190,35%,10%)');
+    grad.addColorStop(0, 'hsl(195,40%,97%)');
+    grad.addColorStop(0.35, 'hsl(195,38%,94%)');
+    grad.addColorStop(0.7, 'hsl(195,35%,92%)');
+    grad.addColorStop(1, 'hsl(195,40%,97%)');
     ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-    // Animated grid lines
-    ctx.strokeStyle = 'hsla(195,70%,50%,0.06)'; ctx.lineWidth = 1;
-    const gridOffset = (s.frame * 0.3) % 60;
-    for (let x = -60 + gridOffset; x < W + 60; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-    for (let y = -60 + gridOffset; y < H + 60; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    // Subtle dotted grid
+    ctx.fillStyle = 'hsla(195,70%,38%,0.07)';
+    const gridOffset = (s.frame * 0.2) % 40;
+    for (let x = gridOffset; x < W; x += 40) {
+      for (let y = gridOffset; y < H; y += 40) {
+        ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
 
-    // Ambient glow at bottom
-    const ambientGrad = ctx.createRadialGradient(W / 2, H, 0, W / 2, H, W * 0.6);
-    ambientGrad.addColorStop(0, 'hsla(185,60%,42%,0.12)');
+    // Soft teal glow at bottom near plate
+    const ambientGrad = ctx.createRadialGradient(W / 2, H, 0, W / 2, H, W * 0.5);
+    ambientGrad.addColorStop(0, 'hsla(195,70%,38%,0.08)');
     ambientGrad.addColorStop(1, 'transparent');
     ctx.fillStyle = ambientGrad; ctx.fillRect(0, 0, W, H);
 
-    // Catch flash
+    // Catch flash (subtle teal)
     if (s.catchFlash > 0) {
       ctx.save();
-      ctx.globalAlpha = s.catchFlash * 0.03;
-      ctx.fillStyle = GOLD;
+      ctx.globalAlpha = s.catchFlash * 0.02;
+      ctx.fillStyle = 'hsl(185,60%,42%)';
       ctx.fillRect(0, 0, W, H);
       ctx.restore();
     }
@@ -279,8 +283,8 @@ export default function DessertGame() {
       ctx.save();
       ctx.translate(it.x, it.y);
       ctx.rotate(it.rotation);
-      // Glow behind item
-      ctx.shadowColor = 'hsla(45,80%,60%,0.3)'; ctx.shadowBlur = 12;
+      // Soft shadow
+      ctx.shadowColor = 'hsla(195,70%,38%,0.2)'; ctx.shadowBlur = 8;
       ctx.font = `${it.size}px serif`;
       ctx.fillText(it.emoji, 0, 0);
       ctx.restore();
@@ -292,8 +296,8 @@ export default function DessertGame() {
 
     // Plate glow
     ctx.save();
-    const plateGlow = ctx.createRadialGradient(px + pw / 2, py + ph / 2, 0, px + pw / 2, py + ph / 2, pw * 0.8);
-    plateGlow.addColorStop(0, 'hsla(185,60%,50%,0.2)');
+    const plateGlow = ctx.createRadialGradient(px + pw / 2, py + ph / 2, 0, px + pw / 2, py + ph / 2, pw * 0.7);
+    plateGlow.addColorStop(0, 'hsla(195,70%,38%,0.12)');
     plateGlow.addColorStop(1, 'transparent');
     ctx.fillStyle = plateGlow;
     ctx.fillRect(px - pw * 0.3, py - ph * 2, pw * 1.6, ph * 5);
