@@ -1,15 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Gamepad2 } from "lucide-react";
 import Navbar from "@/components/DezzoveNavbar";
 import Footer from "@/components/Footer";
 import dezzoveLogo from "@/assets/dezzove-logo-new.png";
 import cakeLevitate from "@/assets/cake-levitate.mp4";
 import cakePour from "@/assets/cake-pour.mp4";
 
+const DessertGame = lazy(() => import("@/components/DessertGame"));
+
 export default function Index() {
   const [pouring, setPouring] = useState(false);
+  const [gameOpen, setGameOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const gameRef = useRef<HTMLDivElement>(null);
 
   const handleVideoClick = () => {
     setPouring((prev) => !prev);
@@ -124,6 +128,38 @@ export default function Index() {
           <div className="w-5 h-8 rounded-full border-2 border-border flex items-start justify-center p-1">
             <div className="w-1 h-2 rounded-full bg-primary animate-bounce-gentle" />
           </div>
+        </div>
+      </section>
+
+      {/* Game CTA */}
+      <section className="section-pad bg-dessert-gradient">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-8">
+          {!gameOpen ? (
+            <button
+              onClick={() => {
+                setGameOpen(true);
+                setTimeout(() => gameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+              }}
+              className="btn-primary text-base gap-3 px-8 py-4"
+            >
+              <Gamepad2 size={20} />
+              <span>Wanna play a game? 🍩</span>
+            </button>
+          ) : (
+            <div ref={gameRef} className="w-full animate-fade-in">
+              <h2 className="font-display text-3xl sm:text-4xl font-black gradient-text text-center mb-2">Sweet Catch 🍰</h2>
+              <p className="text-muted-foreground text-sm text-center mb-6">Catch the falling treats · Don't miss!</p>
+              <Suspense fallback={<div className="text-center text-muted-foreground py-10">Loading game…</div>}>
+                <DessertGame />
+              </Suspense>
+              <button
+                onClick={() => setGameOpen(false)}
+                className="btn-outline text-xs mt-6 mx-auto block"
+              >
+                Close Game
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
