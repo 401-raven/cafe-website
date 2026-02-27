@@ -39,11 +39,11 @@ const menuItems: MenuItem[] = [
   { id: 3, name: "Moonlight Truffle Tin", desc: "Rich dark chocolate truffle cake with elegant golden moon topper in a premium tin", price: "₹399", category: "cakes", image: imgMoonCake, rating: 5.0 },
   { id: 4, name: "Dry Fruit Overload Bowl", desc: "Creamy dessert bowl loaded with pistachios, almonds, cashews, and dried fruits", price: "₹249", category: "bowls", image: imgDryFruitBowl, badge: "new", rating: 4.7 },
   { id: 5, name: "Chocolate Mud Shake", desc: "Thick chocolate shake with layers of chocolate ganache dripping down the glass", price: "₹179", category: "drinks", image: imgChocoShake, rating: 4.8 },
-  { id: 6, name: "Choco Chips Lava Bowl", desc: "Overflowing chocolate dessert bowl topped with a mountain of dark chocolate chips", price: "₹229", category: "bowls", image: imgChocoChipsBowl, badge: "bestseller", rating: 4.9 },
-  { id: 7, name: "Fresh Mango Bowl", desc: "Seasonal Alphonso mango chunks on a creamy mango base — summer's favorite", price: "₹199", category: "bowls", image: imgMangoBowl, badge: "new", rating: 4.8 },
-  { id: 8, name: "Blue Ocean Lemonade", desc: "Refreshing blue curaçao lemonade with fresh mint and lemon slice", price: "₹149", category: "drinks", image: imgBlueLemonade, rating: 4.6 },
-  { id: 9, name: "Chocolate Strawberry Cup", desc: "Fresh strawberries drizzled with rich dark chocolate — a classic indulgence", price: "₹219", category: "specials", image: imgChocoStrawberry, badge: "hot", rating: 4.9 },
-  { id: 10, name: "Loaded Brownie Slab", desc: "Dense fudgy brownie drenched in chocolate sauce and topped with white & dark choco chips", price: "₹189", category: "specials", image: imgBrownie, badge: "bestseller", rating: 5.0 },
+    { id: 6, name: "Choco Chips Lava Bowl", desc: "Overflowing chocolate dessert bowl topped with a mountain of dark chocolate chips", price: "₹229", category: "bowls", image: imgChocoChipsBowl, badge: "bestseller", rating: 4.9 },
+    { id: 7, name: "Fresh Mango Bowl", desc: "Seasonal Alphonso mango chunks on a creamy mango base — summer's favorite", price: "₹199", category: "bowls", image: imgMangoBowl, badge: "new", rating: 4.8 },
+    { id: 8, name: "Blue Ocean Lemonade", desc: "Refreshing blue curaçao lemonade with fresh mint and lemon slice", price: "₹149", category: "drinks", image: imgBlueLemonade, rating: 4.6 },
+    { id: 9, name: "Chocolate Strawberry Cup", desc: "Fresh strawberries drizzled with rich dark chocolate — a classic indulgence", price: "₹219", category: "specials", image: imgChocoStrawberry, badge: "hot", rating: 4.9 },
+    { id: 10, name: "Loaded Brownie Slab", desc: "Dense fudgy brownie drenched in chocolate sauce and topped with white & dark choco chips", price: "₹189", category: "specials", image: imgBrownie, badge: "bestseller", rating: 5.0 },
 ];
 
 const galleryItems = [

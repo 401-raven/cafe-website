@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Lato:wght@300;400;600;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Lato:wght@300;400;600;700;900&display=swap');
 
 @layer base {
   :root {
@@ -79,11 +79,11 @@
    CUSTOM CURSOR
    =========================== */
 body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E🍩%3C/text%3E%3C/svg%3E") 16 16, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E✨%3C/text%3E%3C/svg%3E") 16 16, auto;
 }
 
 a, button, [role="button"] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E🍰%3C/text%3E%3C/svg%3E") 16 16, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E💖%3C/text%3E%3C/svg%3E") 16 16, pointer;
 }
 
 /* ===========================
@@ -170,6 +170,12 @@ a, button, [role="button"] {
   50% { transform: translateY(-10px) rotate(3deg); }
 }
 
+@keyframes float-particle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  50% { transform: translate(15px, -25px) rotate(180deg); }
+}
+
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 20px hsla(195,70%,38%,0.25); }
   50% { box-shadow: 0 0 45px hsla(195,70%,38%,0.55); }
@@ -190,12 +196,26 @@ a, button, [role="button"] {
   to { transform: translateX(-50%); }
 }
 
+@keyframes ambient-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes blob-bounce {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -40px) scale(1.1); }
+  66% { transform: translate(-30px, 20px) scale(0.9); }
+}
+
 .animate-float { animation: float 3.5s ease-in-out infinite; }
 .animate-float-slow { animation: float-slow 5s ease-in-out infinite; }
 .animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
 .animate-spin-slow { animation: spin-slow 25s linear infinite; }
 .animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
 .animate-marquee { animation: marquee 20s linear infinite; }
+.animate-ambient { animation: ambient-bg 15s ease infinite; background-size: 400% 400%; }
+.animate-blob { animation: blob-bounce 10s ease-in-out infinite; }
+.animate-particle { animation: float-particle 4s ease-in-out infinite; }
 
 /* ===========================
    SCROLL REVEAL

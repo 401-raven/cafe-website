@@ -57,9 +57,9 @@ export default function Footer() {
             border: "1px solid rgba(255,255,255,0.15)",
           }}
         >
-          <h3 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mb-2">
-            🎉 Join us at only ₹9,999 - ₹16,999 only! 🎉
-          </h3>
+            <h3 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mb-2">
+              🎉 Join us at only ₹9,999 - ₹16,999 only! 🎉
+            </h3>
           <p className="text-sm" style={{ color: "rgba(245,234,214,0.7)" }}>
             Special packages available for parties and celebrations
           </p>
