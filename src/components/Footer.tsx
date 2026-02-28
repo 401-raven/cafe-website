@@ -3,18 +3,43 @@ import { Instagram, Heart } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-mocha-gradient py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <h3 className="font-display font-bold text-xl text-primary-foreground mb-3">Dezzove</h3>
-            <p className="text-sm" style={{ color: "rgba(245,234,214,0.7)" }}>
-              Where sweet dreams come true. Artisan desserts crafted with love.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-primary-foreground mb-3 text-sm uppercase tracking-wider">Quick Links</h4>
-            <ul className="space-y-2">
+    <footer
+      className="relative overflow-hidden"
+      style={{
+        background: "linear-gradient(180deg, #0F6C78 0%, #083E45 100%)",
+        padding: "5rem 0 3rem",
+      }}
+    >
+      {/* Subtle atmospheric glow */}
+      <div
+        className="absolute top-0 left-1/3 w-[500px] h-[300px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(25,180,198,0.08), transparent 60%)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Brand */}
+        <div className="text-center mb-14">
+          <h3 className="font-display text-3xl text-white mb-3">Dezzove</h3>
+          <p style={{ color: "rgba(255,255,255,0.55)" }} className="text-base italic font-light">
+            Where sweet dreams come true.
+          </p>
+          <p className="font-handwritten text-lg mt-2" style={{ color: "rgba(25,180,198,0.5)" }}>
+            Crafted with love, served with soul.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-10 mb-14">
+          <div className="text-center md:text-left">
+            <h4
+              style={{ color: "rgba(255,255,255,0.85)" }}
+              className="font-semibold mb-5 text-xs uppercase tracking-[0.15em]"
+            >
+              Explore
+            </h4>
+            <ul className="space-y-3">
               {[
                 { label: "Home", to: "/" },
                 { label: "Menu & Gallery", to: "/menu-gallery" },
@@ -24,8 +49,14 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-sm transition-colors hover:text-primary-foreground"
-                    style={{ color: "rgba(245,234,214,0.6)" }}
+                    className="text-sm transition-colors duration-300"
+                    style={{ color: "rgba(255,255,255,0.45)" }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.color = "rgba(255,255,255,0.85)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
+                    }
                   >
                     {link.label}
                   </Link>
@@ -33,15 +64,42 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          <div>
-            <h4 className="font-bold text-primary-foreground mb-3 text-sm uppercase tracking-wider">Follow Us</h4>
-            <div className="flex gap-3">
+
+          <div className="text-center">
+            <h4
+              style={{ color: "rgba(255,255,255,0.85)" }}
+              className="font-semibold mb-5 text-xs uppercase tracking-[0.15em]"
+            >
+              Hours
+            </h4>
+            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+              Open Daily
+              <br />
+              12:00 PM — 12:00 AM
+              <br />
+              <span
+                className="font-handwritten text-base"
+                style={{ color: "rgba(25,180,198,0.6)" }}
+              >
+                Yes, till midnight.
+              </span>
+            </p>
+          </div>
+
+          <div className="text-center md:text-right">
+            <h4
+              style={{ color: "rgba(255,255,255,0.85)" }}
+              className="font-semibold mb-5 text-xs uppercase tracking-[0.15em]"
+            >
+              Follow Us
+            </h4>
+            <div className="flex gap-3 justify-center md:justify-end">
               <a
                 href="https://instagram.com/dezzove"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                style={{ background: "rgba(255,255,255,0.15)" }}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                style={{ background: "rgba(25,180,198,0.2)" }}
               >
                 <Instagram size={18} color="white" />
               </a>
@@ -49,27 +107,27 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Pricing Banner */}
+        {/* Divider */}
         <div
-          className="rounded-2xl p-6 text-center mb-8"
+          className="h-px mb-8"
           style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05))",
-            border: "1px solid rgba(255,255,255,0.15)",
+            background:
+              "linear-gradient(90deg, transparent, rgba(25,180,198,0.2), transparent)",
           }}
-        >
-            <h3 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mb-2">
-              🎉 Join us at only ₹9,999 - ₹16,999 only! 🎉
-            </h3>
-          <p className="text-sm" style={{ color: "rgba(245,234,214,0.7)" }}>
-            Special packages available for parties and celebrations
-          </p>
-        </div>
+        />
 
-        <div className="border-t pt-6 text-center" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-          <p className="text-xs flex items-center justify-center gap-1" style={{ color: "rgba(245,234,214,0.5)" }}>
-            Made with <Heart size={12} fill="currentColor" /> by Dezzove © {new Date().getFullYear()}
-          </p>
-        </div>
+        <p
+          className="text-center text-xs flex items-center justify-center gap-1.5"
+          style={{ color: "rgba(255,255,255,0.35)" }}
+        >
+          Made with{" "}
+          <Heart
+            size={11}
+            fill="currentColor"
+            style={{ color: "rgba(25,180,198,0.6)" }}
+          />{" "}
+          by Dezzove © {new Date().getFullYear()}
+        </p>
       </div>
     </footer>
   );

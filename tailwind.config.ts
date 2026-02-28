@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
-        sans: ['Lato', 'sans-serif'],
+        display: ['"DM Serif Display"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,14 +51,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "dz-deep": "hsl(var(--dz-deep))",
-        "dz-ocean": "hsl(var(--dz-ocean))",
+        /* Aquatic Dezzove palette */
+        "dz-cream": "hsl(var(--dz-cream))",
+        "dz-beige": "hsl(var(--dz-beige))",
+        "dz-chocolate": "hsl(var(--dz-chocolate))",
+        "dz-chocolate-dark": "hsl(var(--dz-chocolate-dark))",
         "dz-teal": "hsl(var(--dz-teal))",
-        "dz-sky": "hsl(var(--dz-sky))",
-        "dz-sky-dark": "hsl(var(--dz-sky-dark))",
+        "dz-teal-light": "hsl(var(--dz-teal-light))",
+        /* Legacy compatibility */
+        "dz-deep": "hsl(var(--dz-chocolate-dark))",
+        "dz-ocean": "hsl(var(--dz-chocolate))",
+        "dz-sky": "hsl(var(--dz-cream))",
+        "dz-sky-dark": "hsl(var(--dz-beige))",
         "dz-coral": "hsl(var(--dz-coral))",
-        "dz-navy": "hsl(var(--dz-navy))",
-        "dz-aqua": "hsl(var(--dz-aqua))",
+        "dz-navy": "hsl(var(--dz-chocolate-dark))",
+        "dz-aqua": "hsl(var(--dz-teal))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

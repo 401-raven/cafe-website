@@ -1,234 +1,382 @@
-import { useEffect, useRef } from "react";
-import { Heart, Leaf, Award, Users, Clock, Phone, MapPin, MessageCircle } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Navbar from "@/components/DezzoveNavbar";
-import Footer from "@/components/Footer";
-
-const values = [
-  { icon: Heart, title: "Made With Love", desc: "Every dessert is handcrafted with passion and care in our artisan kitchen." },
-  { icon: Leaf, title: "Natural Ingredients", desc: "Zero preservatives, 100% natural — because you deserve the real thing." },
-  { icon: Award, title: "Premium Quality", desc: "We source only the finest ingredients for an unmatched taste experience." },
-  { icon: Users, title: "Community First", desc: "Built on sweet moments shared — a café where everyone belongs." },
-];
 
 export default function ContactUs() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const heroScaleRef = useRef<HTMLDivElement>(null);
+  const mapOverlayRef = useRef<HTMLDivElement>(null);
+  const scene4Ref = useRef<HTMLElement>(null);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [showWhatsAppFloat, setShowWhatsAppFloat] = useState(false);
+  const [instaHovered, setInstaHovered] = useState(false);
 
   useEffect(() => {
+    // Intersection Observer for .in-view triggers
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale").forEach((el) => el.classList.add("visible"));
+            entry.target.classList.add("in-view");
           }
         });
       },
-      { threshold: 0.08 }
+      { threshold: 0.4 }
     );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+
+    const sections = document.querySelectorAll(".cine-section");
+    sections.forEach((s) => observer.observe(s));
+
+    // Stagger reveal elements inside each section
+    const staggerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const staggerEls = document.querySelectorAll(".cine-reveal");
+    staggerEls.forEach((el) => staggerObserver.observe(el));
+
+    // Map overlay — fades in when Scene 2 address hits 50%
+    const mapObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && mapOverlayRef.current) {
+            mapOverlayRef.current.classList.add("active");
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    const scene2 = document.getElementById("scene-invitation");
+    if (scene2) mapObserver.observe(scene2);
+
+    // WhatsApp float — appears after 60% scroll
+    const scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShowWhatsAppFloat(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const scene3 = document.getElementById("scene-intimacy");
+    if (scene3) scrollObserver.observe(scene3);
+
+    return () => {
+      observer.disconnect();
+      staggerObserver.disconnect();
+      mapObserver.disconnect();
+      scrollObserver.disconnect();
+    };
+  }, []);
+
+  // Parallax zoom on scroll for hero
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroScaleRef.current) {
+        const scrollY = window.scrollY;
+        const sectionHeight = window.innerHeight;
+        const scale = 1 + (scrollY / sectionHeight) * 0.08;
+        heroScaleRef.current.style.transform = `scale(${Math.min(scale, 1.08)})`;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Your message has been sent 💫\nWe'll get back to you soon.");
+    setFormData({ name: "", email: "", phone: "", message: "" });
+  };
+
+  // Premium click transitions
+  const handleMapClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const overlay = document.createElement("div");
+    overlay.className = "cine-page-fade";
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add("active"));
+    setTimeout(() => {
+      window.open(
+        "https://www.google.com/maps/dir/?api=1&destination=123+Street+Street+Dessert+Lane+City+Center+India",
+        "_blank"
+      );
+      overlay.classList.remove("active");
+      setTimeout(() => overlay.remove(), 400);
+    }, 350);
+  }, []);
+
+  const handleWhatsAppClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+    target.classList.add("cine-ripple");
+    setTimeout(() => {
+      window.open("https://wa.me/919999999999", "_blank");
+      target.classList.remove("cine-ripple");
+    }, 300);
+  }, []);
+
+  const handleInstaClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+    target.style.letterSpacing = "0.3em";
+    target.style.opacity = "1";
+    setTimeout(() => {
+      window.open("https://instagram.com/dezzove", "_blank");
+      target.style.letterSpacing = "";
+      target.style.opacity = "";
+    }, 400);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background" ref={sectionRef}>
+    <div className="cine-contact-page" ref={containerRef}>
       <Navbar />
 
-      {/* About Section */}
-      <section className="section-pad bg-cream-gradient pt-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 reveal">
-            <span className="section-tag mb-4 inline-flex">✦ Our Story</span>
-            <h2 className="font-display font-bold mb-4 text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}>
-              Crafted for the <span className="gradient-text italic">sweet souls</span>
+      {/* ==============================
+          SCENE 1 — THE EMOTIONAL HOOK
+          ============================== */}
+      <section className="cine-section cine-scene-1" id="scene-memory">
+        <div className="cine-bg-layer" ref={heroScaleRef}>
+          <img src="/contact-hero-night.png" alt="" className="cine-bg-img" />
+          <div className="cine-bg-overlay cine-overlay-dark" />
+        </div>
+        <div className="cine-grain" />
+
+        <div className="cine-center-content">
+          <h1 className="cine-headline cine-reveal">
+            Still thinking about that first bite?
+          </h1>
+          <p className="cine-subtext cine-reveal cine-reveal-delay-1">
+            Maybe it's time to come back.
+          </p>
+        </div>
+      </section>
+
+      {/* ==============================
+          SCENE 2 — THE VISIT EXPERIENCE
+          + Ambient Map Overlay
+          ============================== */}
+      <section className="cine-section cine-scene-2" id="scene-invitation">
+        <div className="cine-bg-layer">
+          <img src="/contact-interior-warm.png" alt="" className="cine-bg-img" />
+          <div className="cine-bg-overlay cine-overlay-warm" />
+        </div>
+
+        {/* Ambient map — fades behind text like a memory */}
+        <div className="cine-map-overlay" ref={mapOverlayRef}>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.123456789!2d72.8777!3d19.0760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInMzkuNyJF!5e0!3m2!1sen!2sin!4v1234567890"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Dezzove Location"
+            tabIndex={-1}
+          />
+        </div>
+
+        <div className="cine-grain" />
+
+        <div className="cine-left-content">
+          <p className="cine-visit-line cine-reveal">
+            Our doors stay open long after the city slows down.
+          </p>
+
+          <div className="cine-visit-address cine-reveal cine-reveal-delay-1">
+            <span className="cine-address-line">123 Street Street, Dessert Lane</span>
+            <span className="cine-address-line">City Center, India</span>
+          </div>
+
+          <div className="cine-visit-hours cine-reveal cine-reveal-delay-2">
+            <span>Mon–Fri · 11 AM – 11 PM</span>
+            <span>Sat–Sun · 10 AM – 12 AM</span>
+          </div>
+
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=123+Street+Street+Dessert+Lane+City+Center+India"
+            onClick={handleMapClick}
+            className="cine-cta-link cine-reveal cine-reveal-delay-3"
+          >
+            <span className="cine-cta-arrow">→</span>
+            <span className="cine-cta-text">Find your way here</span>
+          </a>
+        </div>
+      </section>
+
+      {/* ==============================
+          SCENE 3 — REACH OUT (EDITORIAL FORM)
+          + WhatsApp Whisper Link
+          ============================== */}
+      <section className="cine-section cine-scene-3" id="scene-intimacy">
+        <div className="cine-bg-layer">
+          <img
+            src="/milkshake-closeup.jpg"
+            alt=""
+            className="cine-bg-img"
+            style={{ filter: "blur(6px)" }}
+          />
+          <div className="cine-bg-overlay cine-overlay-deep" />
+        </div>
+        <div className="cine-grain" />
+
+        <div className="cine-split-content">
+          {/* Left: Editorial copy + WhatsApp whisper */}
+          <div className="cine-editorial-left cine-reveal">
+            <h2 className="cine-editorial-headline">
+              Let's create something beautiful.
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-base leading-relaxed">
-              Born from a dream to create a space where every bite feels like a warm hug, Dezzove is more than a dessert shop — it's a vibe, a feeling, and a community built on joy.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            {/* Left visual */}
-            <div className="relative reveal-left">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2 rounded-3xl overflow-hidden h-64 relative" style={{ background: "linear-gradient(135deg, hsl(205,65%,12%) 0%, hsl(195,70%,38%) 100%)" }}>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                    <span className="text-6xl mb-3">🍰</span>
-                    <h3 className="font-display text-2xl font-bold mb-1" style={{ color: "white" }}>Est. 2023</h3>
-                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>Your sweetest escape in the city</p>
-                  </div>
-                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20" style={{ background: "rgba(255,255,255,0.3)" }} />
-                </div>
-                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36 bg-secondary" style={{ border: "1px solid hsla(195,70%,38%,0.15)" }}>
-                  <span className="text-3xl mb-2">☕</span>
-                  <p className="text-xs font-bold text-primary uppercase tracking-wider">Artisan Beverages</p>
-                </div>
-                <div className="rounded-2xl p-5 flex flex-col items-center justify-center text-center h-36" style={{ background: "linear-gradient(135deg, hsl(195,35%,92%), hsl(195,40%,97%))", border: "1px solid hsla(195,70%,38%,0.2)" }}>
-                  <span className="text-3xl mb-2">🍓</span>
-                  <p className="text-xs font-bold uppercase tracking-wider text-primary">Fresh Specials</p>
-                </div>
-              </div>
-              <div className="absolute -right-4 top-1/3 glass rounded-2xl p-4 shadow-xl hidden lg:block animate-float-slow">
-                <div className="text-center">
-                  <div className="font-display text-2xl font-bold gradient-text">10K+</div>
-                  <div className="text-xs text-muted-foreground font-medium">Happy Foodies</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right story */}
-            <div className="reveal-right">
-              <span className="section-tag mb-4 inline-flex">Who We Are</span>
-              <h3 className="font-display font-bold mb-4 text-foreground" style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)" }}>
-                A dessert café that lives<span className="gradient-text"> rent-free in your heart</span>
-              </h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                Dezzove was born from a simple belief — that great desserts should feel like a moment frozen in time. Every waffle stack, every thick shake, every cake slice is a story waiting to be shared.
-              </p>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                We blend soft luxury with Gen-Z energy, creating a space that's as Instagram-worthy as it is soul-satisfying. Walk in as a stranger, leave as a regular — that's the Dezzove promise.
-              </p>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { emoji: "🌿", text: "100% Natural" },
-                  { emoji: "✨", text: "Preservative Free" },
-                  { emoji: "❤️", text: "Handcrafted Daily" },
-                  { emoji: "🎨", text: "Insta-Worthy Plating" },
-                ].map((item) => (
-                  <div key={item.text} className="flex items-center gap-2.5 p-3 rounded-xl bg-secondary" style={{ border: "1px solid hsla(195,70%,38%,0.12)" }}>
-                    <span className="text-lg">{item.emoji}</span>
-                    <span className="text-sm font-semibold text-foreground">{item.text}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="cine-editorial-body">
+              <p>Planning a celebration?</p>
+              <p>A midnight craving?</p>
+              <p>Or just want to say hi?</p>
+              <br />
+              <p className="cine-editorial-emphasis">We're always listening.</p>
+              <a
+                href="https://wa.me/919999999999"
+                onClick={handleWhatsAppClick}
+                className="cine-whisper-link"
+              >
+                Or talk to us instantly →
+              </a>
             </div>
           </div>
 
-          {/* Values */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
-            {values.map((value, idx) => {
-              const Icon = value.icon;
-              const delays = ["delay-100", "delay-200", "delay-300", "delay-400"];
-              return (
-                <div key={value.title} className={`reveal ${delays[idx]} card-hover text-center p-6 rounded-2xl bg-card`} style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-secondary">
-                    <Icon size={22} className="text-primary" />
-                  </div>
-                  <h4 className="font-display font-bold text-base mb-2 text-foreground">{value.title}</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{value.desc}</p>
-                </div>
-              );
-            })}
+          {/* Right: Floating form */}
+          <div className="cine-form-right cine-reveal cine-reveal-delay-1">
+            <form onSubmit={handleSubmit} className="cine-form">
+              <div className="cine-field">
+                <label
+                  className={`cine-label ${focusedField === "name" || formData.name ? "cine-label-float" : ""
+                    }`}
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onFocus={() => setFocusedField("name")}
+                  onBlur={() => setFocusedField(null)}
+                  required
+                  className="cine-input"
+                />
+                <div className={`cine-input-line ${focusedField === "name" ? "cine-line-active" : ""}`} />
+              </div>
+
+              <div className="cine-field">
+                <label
+                  className={`cine-label ${focusedField === "email" || formData.email ? "cine-label-float" : ""
+                    }`}
+                >
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onFocus={() => setFocusedField("email")}
+                  onBlur={() => setFocusedField(null)}
+                  required
+                  className="cine-input"
+                />
+                <div className={`cine-input-line ${focusedField === "email" ? "cine-line-active" : ""}`} />
+              </div>
+
+              <div className="cine-field">
+                <label
+                  className={`cine-label ${focusedField === "phone" || formData.phone ? "cine-label-float" : ""
+                    }`}
+                >
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onFocus={() => setFocusedField("phone")}
+                  onBlur={() => setFocusedField(null)}
+                  className="cine-input"
+                />
+                <div className={`cine-input-line ${focusedField === "phone" ? "cine-line-active" : ""}`} />
+              </div>
+
+              <div className="cine-field">
+                <label
+                  className={`cine-label cine-label-textarea ${focusedField === "message" || formData.message ? "cine-label-float" : ""
+                    }`}
+                >
+                  Your Message
+                </label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onFocus={() => setFocusedField("message")}
+                  onBlur={() => setFocusedField(null)}
+                  required
+                  rows={4}
+                  className="cine-input cine-textarea"
+                />
+                <div className={`cine-input-line ${focusedField === "message" ? "cine-line-active" : ""}`} />
+              </div>
+
+              <button type="submit" className="cine-submit-btn">
+                <span>Let's make it memorable</span>
+              </button>
+            </form>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="section-pad bg-dessert-gradient">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 reveal">
-            <span className="section-tag mb-4 inline-flex">📍 Visit Us</span>
-            <h2 className="font-display font-bold mb-4 text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}>
-              Save Your <span className="gradient-text italic">Sweet Spot</span>
-            </h2>
-          </div>
+      {/* ==============================
+          SCENE 4 — THE AFTERTASTE
+          + Enhanced Instagram Integration
+          ============================== */}
+      <section
+        className={`cine-section cine-scene-4 ${instaHovered ? "cine-insta-glow" : ""}`}
+        id="scene-aftertaste"
+        ref={scene4Ref}
+      >
+        <div className="cine-bg-layer cine-gradient-bg" />
+        <div className="cine-grain" />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {/* Opening Hours */}
-            <div className="reveal card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
-                <Clock size={24} color="white" />
-              </div>
-              <h3 className="font-display font-bold text-lg mb-3 text-foreground">Opening Hours</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p><strong className="text-foreground">Mon - Fri:</strong> 11 AM - 11 PM</p>
-                <p><strong className="text-foreground">Sat - Sun:</strong> 10 AM - 12 AM</p>
-                <p className="text-xs mt-2" style={{ color: "#c05a5a" }}>🎉 Open on all holidays!</p>
-              </div>
-            </div>
+        <div className="cine-center-content cine-aftertaste-content">
+          <a
+            href="https://instagram.com/dezzove"
+            onClick={handleInstaClick}
+            onMouseEnter={() => setInstaHovered(true)}
+            onMouseLeave={() => setInstaHovered(false)}
+            className="cine-insta-handle cine-reveal"
+          >
+            @dezzove
+          </a>
 
-            {/* Contact on WhatsApp */}
-            <div className="reveal delay-100 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: "#25D366" }}>
-                <MessageCircle size={24} color="white" />
-              </div>
-              <h3 className="font-display font-bold text-lg mb-3 text-foreground">Contact Us on WhatsApp</h3>
-              <p className="text-sm text-muted-foreground mb-4">Quick replies, instant bookings!</p>
-              <a
-                href="https://wa.me/919999999999?text=Hi%20Dezzove!%20I'd%20like%20to%20know%20more"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary text-xs py-2.5 px-5 inline-flex"
-              >
-                <MessageCircle size={14} />
-                <span>Chat Now</span>
-              </a>
-            </div>
+          <div className="cine-mini-divider cine-reveal cine-reveal-delay-1" />
 
-            {/* Book a Table */}
-            <div className="reveal delay-200 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
-                <Phone size={24} color="white" />
-              </div>
-              <h3 className="font-display font-bold text-lg mb-3 text-foreground">Book a Table</h3>
-              <p className="text-sm text-muted-foreground mb-4">Reserve your sweet spot today!</p>
-              <a
-                href="https://wa.me/919999999999?text=Hi!%20I'd%20like%20to%20book%20a%20table%20at%20Dezzove"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline text-xs py-2.5 px-5 inline-flex"
-              >
-                <span>Reserve Now</span>
-              </a>
-            </div>
-
-            {/* Location */}
-            <div className="reveal delay-300 card-hover rounded-2xl p-6 bg-card text-center" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 20px hsla(195,70%,38%,0.06)" }}>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-primary-gradient">
-                <MapPin size={24} color="white" />
-              </div>
-              <h3 className="font-display font-bold text-lg mb-3 text-foreground">Find Us</h3>
-              <p className="text-sm text-muted-foreground">
-                123 Sweet Street, Dessert Lane,<br />City Center, India
-              </p>
-            </div>
-          </div>
-
-          {/* Map */}
-          <div className="reveal rounded-3xl overflow-hidden shadow-xl mb-12" style={{ border: "1px solid hsla(195,70%,38%,0.1)" }}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.123456789!2d72.8777!3d19.0760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInMzkuNyJF!5e0!3m2!1sen!2sin!4v1234567890"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Dezzove Location"
-            />
-          </div>
-
-          {/* Contact Form */}
-          <div className="reveal max-w-2xl mx-auto">
-            <div className="rounded-3xl p-8 bg-card" style={{ border: "1px solid hsla(195,70%,38%,0.1)", boxShadow: "0 4px 30px hsla(195,70%,38%,0.08)" }}>
-              <h3 className="font-display font-bold text-xl mb-6 text-center text-foreground">Send us a message</h3>
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Message sent! We'll get back to you soon 💕"); }}>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Your Name" className="dz-input" required />
-                  <input type="email" placeholder="Your Email" className="dz-input" required />
-                </div>
-                <input type="tel" placeholder="Phone Number" className="dz-input" />
-                <textarea placeholder="Your Message..." className="dz-input" rows={4} required />
-                <div className="text-center">
-                  <button type="submit" className="btn-primary">
-                    <span>Send Message</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <p className="cine-closing-line cine-reveal cine-reveal-delay-2">
+            See you at midnight.
+          </p>
         </div>
       </section>
 
-      <Footer />
+      {/* ==============================
+          FLOATING WHATSAPP — Ambient
+          ============================== */}
+      <a
+        href="https://wa.me/919999999999"
+        onClick={handleWhatsAppClick}
+        className={`cine-wa-float ${showWhatsAppFloat ? "cine-wa-visible" : ""}`}
+      >
+        Talk to us
+      </a>
     </div>
   );
 }

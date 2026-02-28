@@ -1,18 +1,10 @@
-import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles, Gamepad2, Star, ShieldCheck, Truck, Clock, Heart, Coffee, Utensils } from "lucide-react";
+import { ArrowRight, MapPin, CalendarCheck, Quote, Sparkles } from "lucide-react";
 import Navbar from "@/components/DezzoveNavbar";
 import Footer from "@/components/Footer";
-import HeroDessert from "@/components/HeroDessert";
-import dezzoveLogo from "@/assets/dezzove-logo-new.png";
-import cakeLevitate from "@/assets/cake-levitate.mp4";
-
-const DessertGame = lazy(() => import("@/components/DessertGame"));
 
 export default function Index() {
-  const [gameOpen, setGameOpen] = useState(false);
-  const gameRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -22,7 +14,7 @@ export default function Index() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
     document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale").forEach((el) => {
@@ -32,293 +24,734 @@ export default function Index() {
     return () => observer.disconnect();
   }, []);
 
+  const journeySteps = [
+    {
+      num: 1,
+      title: "It Starts With Batter",
+      text: "Freshly mixed, poured gently into heat. The first promise of something extraordinary.",
+      img: "/hero-waffle-drizzle.jpg",
+    },
+    {
+      num: 2,
+      title: "Golden Perfection",
+      text: "Crisp outside. Soft inside. Exactly as it should be — patience turned into texture.",
+      img: "/step2-crisp.jpg",
+    },
+    {
+      num: 3,
+      title: "The Drizzle Moment",
+      text: "Warm Belgian chocolate cascading slowly. This is the moment that makes everything else worth it.",
+      img: "/step3-chocolate-drizzle.jpg",
+    },
+    {
+      num: 4,
+      title: "Topped With Joy",
+      text: "Fruits, crunch, cream — layered with care. Every topping tells its own story.",
+      img: "/step4-fruit-topping.jpg",
+    },
+    {
+      num: 5,
+      title: "Served With A Smile",
+      text: "Because presentation is part of the magic. The final touch before your first bite.",
+      img: "/step5-serve-plated.jpg",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background animate-ambient bg-hero-gradient">
+    <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Animated Background Blobs */}
-        <div
-          className="absolute top-[-15%] right-[-10%] w-[700px] h-[700px] rounded-full opacity-30 pointer-events-none animate-blob"
-          style={{
-            background: "radial-gradient(circle, hsl(190,70%,70%) 0%, hsl(200,50%,40%,0.3) 40%, transparent 70%)",
-            filter: "blur(80px)",
-          }}
-        />
-        <div
-          className="absolute bottom-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-25 pointer-events-none animate-blob"
-          style={{
-            background: "radial-gradient(circle, hsl(195,55%,50%,0.3) 0%, hsl(200,40%,35%,0.2) 40%, transparent 70%)",
-            filter: "blur(80px)",
-            animationDelay: "-5s",
-          }}
-        />
-        <div
-          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none animate-blob"
-          style={{
-            background: "radial-gradient(circle, hsl(185,60%,60%,0.4) 0%, transparent 70%)",
-            filter: "blur(60px)",
-            animationDelay: "-2s",
-          }}
-        />
+      {/* =====================================================
+          SECTION 1 — HERO (CINEMATIC)
+          ===================================================== */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/hero-waffle-drizzle.jpg"
+            alt="Dezzove signature waffle with Belgian chocolate drizzle"
+            className="w-full h-full object-cover"
+          />
+          {/* Lighter overlay — let dessert warmth show through */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(15,108,120,0.45) 0%, rgba(8,62,69,0.6) 60%, rgba(8,62,69,0.75) 100%)",
+            }}
+          />
+        </div>
 
-        {/* Floating Particles */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Atmospheric floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute animate-particle opacity-0"
+              className="absolute rounded-full"
               style={{
-                top: `${Math.random() * 100}%`,
+                width: `${3 + Math.random() * 5}px`,
+                height: `${3 + Math.random() * 5}px`,
                 left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${4 + Math.random() * 4}s`,
+                background: `rgba(25,180,198,${0.15 + Math.random() * 0.25})`,
+                animation: `aqua-float ${10 + Math.random() * 15}s linear infinite`,
+                animationDelay: `${Math.random() * 12}s`,
               }}
-            >
-              {i % 3 === 0 ? "✨" : i % 3 === 1 ? "🍩" : "💖"}
-            </div>
+            />
           ))}
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 pb-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left — Video / Dessert */}
-            <div className="order-2 lg:order-1 flex justify-center reveal-left">
-              <HeroDessert videoSrc={cakeLevitate} />
-            </div>
+        {/* Atmospheric blur blob */}
+        <div
+          className="absolute top-1/4 left-1/3 w-[500px] h-[500px] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(25,180,198,0.12), transparent 60%)",
+            filter: "blur(60px)",
+          }}
+        />
 
-            {/* Right — Logo + CTA Panel */}
-            <div className="order-1 lg:order-2 reveal-right">
-              <div className="glass-card p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border-white/50 relative overflow-hidden group">
-                {/* Decorative background icon */}
-                <Heart className="absolute -top-10 -right-10 w-40 h-40 text-primary/5 -rotate-12 group-hover:scale-110 transition-transform duration-700" />
-                <Coffee className="absolute -bottom-10 -left-10 w-32 h-32 text-primary/5 rotate-12 group-hover:scale-110 transition-transform duration-700" />
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-24 pb-36">
+          <h1
+            className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] text-white mb-10 leading-[1.05] animate-text-glow"
+            style={{
+              textShadow: "0 4px 40px rgba(0,0,0,0.25)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Where Every Dessert
+            <br />
+            <span
+              className="gradient-text-aqua inline-block"
+              style={{
+                fontSize: "1.15em",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Has a Story.
+            </span>
+          </h1>
 
-                <div className="text-center lg:text-right relative z-10">
-                  <div className="inline-flex items-center gap-2 mb-6">
-                    <span className="section-tag bg-white/50 backdrop-blur-sm">
-                      <Sparkles size={14} className="animate-pulse" />
-                      Gen-Z Dessert Experience
-                    </span>
-                  </div>
+          <p
+            className="text-lg sm:text-xl md:text-2xl text-white/75 max-w-2xl mx-auto mb-14 leading-relaxed font-light reveal delay-200"
+            style={{ textShadow: "0 2px 15px rgba(0,0,0,0.15)" }}
+          >
+            From the first drizzle of Belgian chocolate to the final bite of warmth,
+            Dezzove isn't just dessert — it's a feeling you carry home.
+          </p>
 
-                  {/* Circular Logo with Glow */}
-                  <div className="flex justify-center lg:justify-end mb-8">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse-glow" />
-                      <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-2xl relative z-10 hover:scale-105 transition-transform duration-500">
-                        <img
-                          src={dezzoveLogo}
-                          alt="Dezzove Dessert Shop Logo"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 bg-white p-3 rounded-2xl shadow-xl flex items-center gap-1.5 z-20 animate-bounce-gentle">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={12} fill="currentColor" className="text-yellow-400" />
-                          ))}
-                        </div>
-                        <span className="text-[10px] font-black">4.9/5</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black gradient-text mb-6 leading-tight">
-                    Sweet Dreams <br className="hidden sm:block" />
-                    <span className="text-dz-navy">Are Made Of This</span>
-                  </h1>
-
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-10 max-w-lg mx-auto lg:ml-auto lg:mr-0 font-medium">
-                    From dreamy thick shakes to decadent waffles and signature cakes.
-                    Your sweetest escape awaits in every bite.
-                  </p>
-
-                  <div className="flex flex-wrap gap-4 justify-center lg:justify-end mb-10">
-                    <Link to="/menu-gallery" className="btn-primary group/btn">
-                      <span>Explore Menu</span>
-                      <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                    </Link>
-                    <Link to="/contact" className="btn-outline hover:shadow-primary/20">
-                      <span>Reserve Table</span>
-                    </Link>
-                  </div>
-
-                  {/* Trust Row */}
-                  <div className="flex flex-wrap gap-4 justify-center lg:justify-end py-6 border-t border-primary/10">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/5 rounded-full">
-                      <ShieldCheck size={14} className="text-primary" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider">Freshly Made</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-dz-teal/5 rounded-full">
-                      <Clock size={14} className="text-dz-teal" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider">Under 20 Mins</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/5 rounded-full">
-                      <Truck size={14} className="text-primary" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider">Free Delivery</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-5 justify-center reveal delay-400">
+            <Link
+              to="/menu-gallery"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-base tracking-wide transition-all duration-400 shadow-lg hover:shadow-2xl hover:scale-105"
+              style={{
+                background: "#19B4C6",
+                color: "#FFFFFF",
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 12px 35px rgba(25,180,198,0.3)",
+              }}
+            >
+              <span>Explore Our Menu</span>
+              <ArrowRight size={18} />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-base tracking-wide transition-all duration-400 hover:scale-105"
+              style={{
+                border: "2px solid rgba(255,255,255,0.35)",
+                color: "#FFFFFF",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255,255,255,0.06)",
+              }}
+            >
+              <span>Visit Us Tonight</span>
+            </Link>
           </div>
         </div>
 
-        {/* Improved Scroll indicator */}
+        {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
-          <span className="text-[10px] text-muted-foreground font-black tracking-[0.2em] uppercase opacity-60">Scroll Down</span>
-          <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex items-start justify-center p-1.5 shadow-lg shadow-primary/5 bg-white/50 backdrop-blur-sm">
-            <div className="w-1.5 h-3 rounded-full bg-primary animate-bounce-gentle shadow-[0_0_8px_hsl(var(--primary))]" />
+          <span className="text-[10px] text-white/40 font-semibold tracking-[0.25em] uppercase">
+            Scroll
+          </span>
+          <div className="w-5 h-9 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
+            <div className="w-1 h-2.5 rounded-full bg-white/40 animate-bounce-gentle" />
           </div>
         </div>
       </section>
 
-      {/* Teaser Strip */}
-      <div className="bg-dz-navy py-4 relative overflow-hidden">
-        <div className="ticker-wrap flex">
-          <div className="ticker-inner">
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="flex items-center gap-8 mx-4">
-                <span className="text-white/80 text-sm font-black uppercase tracking-widest flex items-center gap-2">
-                  <Sparkles size={16} className="text-dz-aqua" />
-                  Today's Special: Triple Chocolate Lava Cake
-                </span>
-                <span className="text-white/80 text-sm font-black uppercase tracking-widest flex items-center gap-2">
-                  <Star size={16} className="text-dz-aqua" />
-                  Free Toppings on all Waffles
-                </span>
-                <span className="text-white/80 text-sm font-black uppercase tracking-widest flex items-center gap-2">
-                  <Heart size={16} className="text-dz-aqua" />
-                  New: Blue Lagoon Thick Shake
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* WAVE DIVIDER — hero → story */}
+      <div className="wave-divider">
+        <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+          <path d="M0,60 C200,0 400,80 600,40 C800,0 1000,70 1200,30 L1200,80 L0,80 Z" className="shape-fill" />
+        </svg>
       </div>
 
-      {/* Mid-Page Content: Quick Preview */}
-      <section className="section-pad bg-white/50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16 reveal">
-            <span className="section-tag mb-4">Chef's Selection</span>
-            <h2 className="font-display text-4xl sm:text-5xl font-black text-dz-navy">Must-Try Delights</h2>
-            <div className="deco-line mx-auto mt-6" />
+      {/* =====================================================
+          SECTION 2 — OUR STORY (EDITORIAL)
+          ===================================================== */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/cafe-interior-warm.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          padding: "9rem 0 7rem",
+        }}
+      >
+        <div className="absolute inset-0" style={{ background: "rgba(242,251,252,0.93)" }} />
+
+        {/* Atmospheric glow */}
+        <div
+          className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[500px] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 50% 40%, rgba(25,180,198,0.1) 0%, transparent 65%)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-5 reveal">
+            <span className="section-tag mb-6 inline-flex">
+              <Sparkles size={13} />
+              Our Story
+            </span>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <h2
+            className="font-display text-4xl sm:text-5xl md:text-[3.8rem] text-center mb-14 leading-tight reveal"
+            style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+          >
+            Born From Late-Night
+            <br />
+            <span className="italic gradient-text-aqua">
+              Cravings.
+            </span>
+          </h2>
+
+          <div className="max-w-[680px] mx-auto space-y-7 reveal delay-200">
+            <p className="text-lg md:text-xl leading-[1.85] text-center italic font-light" style={{ color: "#2E5F66" }}>
+              It began with a single waffle iron, a handful of recipes, and an obsession with perfecting the crisp.
+            </p>
+
+            <p className="text-base md:text-lg leading-[1.85] text-center" style={{ color: "#3A6E76" }}>
+              Dezzove was never meant to be just another dessert café. It was built as a sanctuary — a place where
+              friends gather after long days, where birthdays turn into memories, and where chocolate flows a little
+              more generously than expected.
+            </p>
+
+            <div className="py-6">
+              <div className="section-divider" />
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-10 text-center">
+              <div className="reveal delay-100">
+                <p className="font-display text-xl mb-2" style={{ color: "#083E45" }}>Every shake</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#5E8C92" }}>is thick enough to slow you down.</p>
+              </div>
+              <div className="reveal delay-200">
+                <p className="font-display text-xl mb-2" style={{ color: "#083E45" }}>Every waffle</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#5E8C92" }}>is golden enough to make you pause.</p>
+              </div>
+              <div className="reveal delay-300">
+                <p className="font-display text-xl mb-2" style={{ color: "#083E45" }}>Every visit</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#5E8C92" }}>is meant to feel like a small escape.</p>
+              </div>
+            </div>
+
+            <div className="py-6">
+              <div className="section-divider" />
+            </div>
+
+            <p className="text-center font-display text-2xl md:text-3xl reveal" style={{ color: "#083E45" }}>
+              We don't just serve desserts.
+              <br />
+              <span className="italic gradient-text-aqua">
+                We craft moments.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* POETIC DIVIDER */}
+      <div className="poetic-divider reveal" style={{ background: "#F2FBFC" }}>
+        <p>"Sweetness takes time."</p>
+      </div>
+
+      {/* =====================================================
+          SECTION 3 — FROM BATTER TO BLISS (STORYTELLING BLOCKS)
+          ===================================================== */}
+      <section className="relative overflow-hidden" style={{ background: "#F2FBFC", padding: "5rem 0 8rem" }}>
+        {/* Atmospheric blobs */}
+        <div
+          className="absolute top-20 right-0 w-[400px] h-[400px] pointer-events-none atmo-blob atmo-blob-aqua animate-drift"
+          style={{ opacity: 0.4 }}
+        />
+        <div
+          className="absolute bottom-40 left-0 w-[350px] h-[350px] pointer-events-none atmo-blob atmo-blob-deep animate-drift"
+          style={{ animationDelay: "4s", opacity: 0.3 }}
+        />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 reveal">
+            <span className="section-tag mb-6 inline-flex">From Batter to Bliss</span>
+          </div>
+
+          <h2
+            className="font-display text-4xl sm:text-5xl md:text-[3.5rem] text-center mb-24 reveal"
+            style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+          >
+            The Journey of a<br />
+            <span className="italic gradient-text-aqua">
+              Signature Waffle
+            </span>
+          </h2>
+
+          {/* Alternating storytelling blocks */}
+          {journeySteps.map((step, i) => (
+            <div
+              key={step.num}
+              className="story-block"
+              style={{ direction: i % 2 === 1 ? "rtl" : "ltr" }}
+            >
+              {/* Image */}
+              <div
+                className={`story-block-image ${i % 2 === 0 ? "reveal-left" : "reveal-right"}`}
+                style={{ direction: "ltr" }}
+              >
+                <img
+                  src={step.img}
+                  alt={step.title}
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Content */}
+              <div
+                className={`story-block-content ${i % 2 === 0 ? "reveal-right" : "reveal-left"} delay-200`}
+                style={{ direction: "ltr" }}
+              >
+                <div
+                  className="inline-flex items-center justify-center w-14 h-14 rounded-full text-white font-display text-xl mb-6"
+                  style={{
+                    background: "linear-gradient(135deg, #19B4C6, #0F6C78)",
+                    boxShadow: "0 10px 30px rgba(25,180,198,0.25)",
+                  }}
+                >
+                  {step.num}
+                </div>
+                <h3
+                  className="font-display text-2xl md:text-3xl mb-4"
+                  style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+                >
+                  {step.title}
+                </h3>
+                <p className="text-base md:text-lg leading-[1.8]" style={{ color: "#3A6E76" }}>
+                  {step.text}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =====================================================
+          CINEMATIC STORY BREAK — FULL SCREEN
+          ===================================================== */}
+      <section className="cinematic-break">
+        <div className="absolute inset-0">
+          <img
+            src="/late-night-vibes.jpg"
+            alt="Evening dessert atmosphere"
+            className="w-full h-full object-cover"
+          />
+          <div className="cinematic-overlay" />
+        </div>
+
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: `${2 + Math.random() * 4}px`,
+                height: `${2 + Math.random() * 4}px`,
+                left: `${Math.random() * 100}%`,
+                background: `rgba(25,180,198,${0.15 + Math.random() * 0.2})`,
+                animation: `aqua-float ${12 + Math.random() * 18}s linear infinite`,
+                animationDelay: `${Math.random() * 10}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+          <p
+            className="font-handwritten text-2xl text-white/40 mb-8 tracking-wide reveal"
+          >
+            — a pause —
+          </p>
+          <h2
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] reveal delay-200 animate-text-glow"
+            style={{
+              textShadow: "0 4px 40px rgba(0,0,0,0.2)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Some Evenings
+            <br />
+            <span className="italic gradient-text-aqua" style={{ fontSize: "1.1em" }}>
+              Deserve Dessert.
+            </span>
+          </h2>
+          <p
+            className="font-handwritten text-xl text-white/35 mt-10 reveal delay-400"
+          >
+            "Some nights are meant to linger."
+          </p>
+        </div>
+      </section>
+
+      {/* =====================================================
+          SECTION 4 — MORE THAN A CAFÉ (LIGHTER OVERLAY)
+          ===================================================== */}
+      <section className="relative overflow-hidden" style={{ padding: "9rem 0" }}>
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/late-night-vibes.jpg"
+            alt="Inside Dezzove café"
+            className="w-full h-full object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to right, rgba(8,62,69,0.72) 0%, rgba(15,108,120,0.5) 100%)",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-xl reveal">
+            <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-white/35 mb-7">
+              The Experience
+            </span>
+            <h2
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-12 leading-[1.08]"
+              style={{
+                textShadow: "0 4px 30px rgba(0,0,0,0.2)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              More Than a Café.
+              <br />
+              <span className="italic gradient-text-aqua" style={{ fontSize: "1.05em" }}>
+                A Vibe.
+              </span>
+            </h2>
+
+            <div className="space-y-4 mb-12 reveal delay-200">
+              <p className="text-white/65 text-lg md:text-xl font-light">Soft lights.</p>
+              <p className="text-white/65 text-lg md:text-xl font-light">Late-night conversations.</p>
+              <p className="text-white/65 text-lg md:text-xl font-light">The sound of spoons against thick shakes.</p>
+            </div>
+
+            <p className="text-white/40 text-base leading-relaxed mb-8 reveal delay-300">
+              We stay open till midnight because some stories begin after sunset.
+            </p>
+
+            <p className="text-white/60 text-lg font-light reveal delay-400">
+              Bring your friends. Bring your date.
+              <br />
+              Or bring just yourself —{" "}
+              <span className="italic font-handwritten text-2xl" style={{ color: "#19B4C6" }}>
+                we'll handle the sweetness.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* POETIC DIVIDER */}
+      <div className="poetic-divider reveal" style={{ background: "#F2FBFC" }}>
+        <p>"These are not just desserts."</p>
+      </div>
+
+      {/* =====================================================
+          SECTION 5 — SIGNATURE EXPERIENCES
+          ===================================================== */}
+      <section className="relative overflow-hidden" style={{ background: "#F2FBFC", padding: "5rem 0 9rem" }}>
+        {/* Atmospheric blob */}
+        <div
+          className="absolute bottom-0 right-10 w-[500px] h-[500px] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 70% 70%, rgba(25,180,198,0.08) 0%, transparent 60%)",
+            filter: "blur(40px)",
+          }}
+        />
+
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20 reveal">
+            <span className="section-tag mb-6 inline-flex">Signature Experiences</span>
+            <h2
+              className="font-display text-4xl sm:text-5xl md:text-[3.5rem]"
+              style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+            >
+              Crafted to Make You
+              <br />
+              <span className="italic gradient-text-aqua">
+                Feel Something.
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-10 mb-16">
             {[
-                {
-                  title: "Dreamy Waffles",
-                  desc: "Crispy outside, fluffy inside with Belgian chocolate.",
-                  price: "₹189",
-                  icon: <Utensils className="text-primary" size={24} />,
-                  badge: "Popular"
-                },
-                {
-                  title: "Thick Shakes",
-                  desc: "So thick you'll need a spoon. Real fruit & cream.",
-                  price: "₹199",
-                  icon: <Coffee className="text-dz-teal" size={24} />,
-                  badge: "New"
-                },
-                {
-                  title: "Signature Cakes",
-                  desc: "Multi-layered happiness for your special moments.",
-                  price: "₹219",
-                  icon: <Star className="text-primary" size={24} />,
-                  badge: "Best Seller"
-                }
+              {
+                title: "Dreamy Waffles",
+                desc: "Crisp, indulgent, unforgettable. Each one a golden masterpiece pressed with patience and love.",
+                emoji: "🧇",
+              },
+              {
+                title: "Thick Shakes",
+                desc: "So rich, you'll need a spoon. Every sip is a journey through layers of indulgent flavor.",
+                emoji: "🥤",
+              },
+              {
+                title: "Celebration Cakes",
+                desc: "Layered happiness for your special moments. Because milestones deserve something extraordinary.",
+                emoji: "🎂",
+              },
             ].map((item, i) => (
-              <div key={i} className={`glass-card p-8 rounded-[2rem] card-hover reveal delay-${(i + 1) * 100}`}>
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                  {item.icon}
-                </div>
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-display text-2xl font-bold text-dz-navy">{item.title}</h3>
-                  <span className="badge-new bg-dz-aqua/20 text-dz-navy">{item.badge}</span>
-                </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{item.desc}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-black gradient-text">{item.price}</span>
-                  <Link to="/menu-gallery" className="p-2 rounded-full bg-primary/5 hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight size={20} />
-                  </Link>
-                </div>
+              <div
+                key={item.title}
+                className={`experience-card reveal delay-${(i + 1) * 100}`}
+              >
+                <div className="text-5xl mb-6">{item.emoji}</div>
+                <h3 className="font-display text-2xl mb-4" style={{ color: "#083E45" }}>
+                  {item.title}
+                </h3>
+                <p className="leading-[1.8] text-[0.95rem]" style={{ color: "#3A6E76" }}>{item.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Game CTA Section */}
-      <section className="section-pad bg-dessert-gradient relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/50 to-transparent" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-8 relative z-10 reveal">
-          {!gameOpen ? (
-            <div className="text-center">
-              <h2 className="font-display text-3xl sm:text-4xl font-black text-dz-navy mb-4">Feeling Lucky? 🎰</h2>
-              <p className="text-muted-foreground mb-8 max-w-md mx-auto">Play our mini-game</p>
-              <button
-                onClick={() => {
-                  setGameOpen(true);
-                  setTimeout(() => gameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-                }}
-                className="btn-primary text-base gap-3 px-10 py-5 shadow-xl shadow-primary/20"
-              >
-                <Gamepad2 size={24} className="animate-bounce" />
-                <span>Play Sweet Catch 🍩</span>
-              </button>
-            </div>
-          ) : (
-            <div ref={gameRef} className="w-full animate-fade-in glass-card p-8 rounded-[3rem]">
-              <h2 className="font-display text-3xl sm:text-4xl font-black gradient-text text-center mb-2">Sweet Catch 🍰</h2>
-              <p className="text-muted-foreground text-sm text-center mb-6">Catch the falling treats · Don't miss!</p>
-              <Suspense fallback={<div className="text-center text-muted-foreground py-10">Loading game…</div>}>
-                <DessertGame />
-              </Suspense>
-              <button
-                onClick={() => setGameOpen(false)}
-                className="btn-outline text-xs mt-8 mx-auto block hover:bg-destructive hover:border-destructive hover:text-white"
-              >
-                Exit Game
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Pre-Footer Discovery Section */}
-      <section className="py-24 bg-dz-navy relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-dz-aqua rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary rounded-full blur-[120px]" />
-        </div>
-
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10 reveal-scale">
-          <span className="text-dz-aqua font-black tracking-[0.3em] uppercase text-xs mb-6 block">Stay Sweet</span>
-          <h2 className="font-display text-4xl sm:text-6xl text-white font-black mb-8 leading-tight">
-            Ready to taste the <br /> <span className="text-dz-aqua">Magic of Dezzove?</span>
-          </h2>
-          <p className="text-white/60 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-            Join 10,000+ happy foodies who have discovered their favorite dessert sanctuary.
-            We're open until midnight every day.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/menu-gallery" className="btn-white">
-              View All Desserts
-            </Link>
-            <Link to="/contact" className="btn-outline border-white text-white hover:bg-white hover:text-dz-navy">
-              Find Our Store
+          <div className="text-center reveal delay-400">
+            <Link
+              to="/menu-gallery"
+              className="btn-primary inline-flex items-center gap-2 px-10 py-4 text-base"
+            >
+              <span>View Full Menu</span>
+              <ArrowRight size={18} />
             </Link>
           </div>
         </div>
       </section>
 
+      {/* =====================================================
+          SECTION 6 — A NOTE FROM THE FOUNDER
+          ===================================================== */}
+      <section className="relative overflow-hidden" style={{ background: "#EAF8FA", padding: "8rem 0" }}>
+        {/* Atmospheric glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(25,180,198,0.08), transparent 65%)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="founder-note reveal">
+            <span className="section-tag mb-8 inline-flex">
+              <Sparkles size={13} />
+              A Personal Note
+            </span>
+
+            <h2
+              className="font-display text-3xl sm:text-4xl md:text-5xl mb-10"
+              style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+            >
+              From Our Heart
+              <br />
+              <span className="italic gradient-text-aqua">to Your Table.</span>
+            </h2>
+
+            <p
+              className="text-base md:text-lg leading-[2] mb-8 font-light reveal delay-200"
+              style={{ color: "#3A6E76" }}
+            >
+              When I started Dezzove, I didn't have a business plan. I had a waffle iron, my grandmother's recipe,
+              and this stubborn belief that food should make people feel something. Every evening at the café,
+              I watch strangers become friends over shared plates. I watch couples steal bites from each other.
+              I watch parents surprise their kids with an extra scoop.
+            </p>
+
+            <p
+              className="text-base md:text-lg leading-[2] mb-10 font-light reveal delay-300"
+              style={{ color: "#3A6E76" }}
+            >
+              That's what this place is about. Not just desserts — but the spaces between the bites.
+              The laughter. The "remember when." The late nights that turn into lifelong memories.
+            </p>
+
+            <div className="reveal delay-400">
+              <p className="signature">— The Founder</p>
+              <p className="text-sm mt-2" style={{ color: "#5E8C92" }}>Dezzove, since day one.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          SECTION 7 — TESTIMONIALS
+          ===================================================== */}
+      <section
+        className="relative overflow-hidden"
+        style={{ background: "#D6F0F3", padding: "9rem 0" }}
+      >
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20 reveal">
+            <span className="section-tag mb-6 inline-flex">
+              <Quote size={13} />
+              Testimonials
+            </span>
+            <h2
+              className="font-display text-4xl sm:text-5xl md:text-[3.5rem]"
+              style={{ color: "#083E45", letterSpacing: "-0.01em" }}
+            >
+              Sweet Words From
+              <br />
+              <span className="italic gradient-text-aqua">
+                Our Guests
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-10">
+            <div className="testimonial-card reveal delay-100">
+              <p className="text-lg md:text-xl leading-[1.85] mb-8 font-light italic pl-4" style={{ color: "#083E45" }}>
+                "Dezzove is my midnight therapy. The chocolate lava cake never disappoints. It's the one place where I feel time stops."
+              </p>
+              <div className="flex items-center gap-4 pl-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden" style={{ boxShadow: "0 4px 15px rgba(25,180,198,0.15)" }}>
+                  <img
+                    src="/customer-1.jpg"
+                    alt="Guest"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm" style={{ color: "#083E45" }}>A Happy Guest</p>
+                  <p className="text-xs" style={{ color: "#5E8C92" }}>Regular Visitor</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="testimonial-card reveal delay-200">
+              <p className="text-lg md:text-xl leading-[1.85] mb-8 font-light italic pl-4" style={{ color: "#083E45" }}>
+                "It's not just dessert. It's where our friend group meets every weekend. The thick shakes and late-night laughter — that's our thing."
+              </p>
+              <div className="flex items-center gap-4 pl-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden" style={{ boxShadow: "0 4px 15px rgba(25,180,198,0.15)" }}>
+                  <img
+                    src="/customer-2.jpg"
+                    alt="Guest"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm" style={{ color: "#083E45" }}>Weekend Regulars</p>
+                  <p className="text-xs" style={{ color: "#5E8C92" }}>Friend Group</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* POETIC DIVIDER */}
+      <div className="poetic-divider reveal" style={{ background: "#F2FBFC" }}>
+        <p>"Come as you are. Leave a little sweeter."</p>
+      </div>
+
+      {/* =====================================================
+          SECTION 8 — VISIT US (CTA - CINEMATIC)
+          ===================================================== */}
+      <section className="relative overflow-hidden" style={{ padding: "9rem 0" }}>
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/store-front.jpg"
+            alt="Dezzove storefront"
+            className="w-full h-full object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(15,108,120,0.8) 0%, rgba(25,180,198,0.65) 100%)",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span
+            className="inline-block font-handwritten text-xl mb-8 reveal"
+            style={{ color: "rgba(25,180,198,0.7)" }}
+          >
+            Your table is waiting
+          </span>
+
+          <h2
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-10 leading-[1.08] reveal delay-100"
+            style={{
+              textShadow: "0 4px 30px rgba(0,0,0,0.2)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Come Stay
+            <br />
+            <span className="italic gradient-text-aqua" style={{ fontSize: "1.1em" }}>
+              A While.
+            </span>
+          </h2>
+
+          <div className="space-y-3 mb-14 reveal delay-200">
+            <p className="text-white/60 text-lg md:text-xl font-light">Open till midnight.</p>
+            <p className="text-white/60 text-lg md:text-xl font-light">Freshly made.</p>
+            <p className="text-white/60 text-lg md:text-xl font-light">Always worth the drive.</p>
+          </div>
+
+          <div className="flex flex-wrap gap-5 justify-center reveal delay-300">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-base tracking-wide hover:scale-105 transition-all duration-400 shadow-lg"
+              style={{ background: "#FFFFFF", color: "#0F6C78" }}
+            >
+              <MapPin size={18} />
+              <span>Find Our Location</span>
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-base tracking-wide transition-all duration-400 hover:scale-105"
+              style={{
+                border: "2px solid rgba(255,255,255,0.35)",
+                color: "#FFFFFF",
+                background: "rgba(255,255,255,0.06)",
+              }}
+            >
+              <CalendarCheck size={18} />
+              <span>Reserve a Table</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          FOOTER
+          ===================================================== */}
       <Footer />
     </div>
   );
